@@ -4,16 +4,18 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
 
-  <name>seckill</name>
   <modules>
     <module>api</module>
-      <module>purchase</module>
+    <module>purchase</module>
     <module>seller</module>
     <module>admin</module>
   </modules>
+
   <groupId>com.xiang</groupId>
   <artifactId>seckill</artifactId>
   <version>1.0</version>
+  <name>seckill</name>
+  <description>Demo project for Spring Boot</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,12 +24,42 @@
     <spring-cloud.version>Finchley.SR2</spring-cloud.version>
   </properties>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.10.RELEASE</version>
+  </parent>
+
   <dependencies>
-    <!--dependency>
-      <groupId>com.xiang</groupId>
-      <artifactId>[the artifact id of the block to be mounted]</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+
+    </dependencies>
+  </dependencyManagement>
 
 </project>

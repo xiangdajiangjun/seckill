@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: purchase
+  thymeleaf:
+    cache: false
+
+#  jpa:
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: false
+#        use_sql_commonts: true
+#  servlet:
+#    multipart:
+#      max-file-size: 5MB
+#  profiles:
+#    include: auth
