@@ -22,6 +22,7 @@ public class test {
         Account account = accountDao.findAccountByUsername("xiang");
         Role relo = roleDao.findById(1);
         account.getRoleList().add(relo);
+        //accountDao.save(account);
         return account.getRoleList().toString();
     }
 }
