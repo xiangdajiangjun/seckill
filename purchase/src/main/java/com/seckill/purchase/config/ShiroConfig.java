@@ -1,5 +1,6 @@
 package com.seckill.purchase.config;
 
+        import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
         import org.apache.shiro.mgt.SessionsSecurityManager;
         import org.apache.shiro.session.mgt.DefaultSessionManager;
         import org.apache.shiro.session.mgt.SessionManager;
@@ -82,6 +83,14 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
         securityManager.setRealm(myRealm);
         return securityManager;
+    }
+
+
+    //其他
+    //方言支持
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 
 

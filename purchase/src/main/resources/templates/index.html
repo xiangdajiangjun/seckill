@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -80,14 +81,22 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 <!--                    <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>-->
-                    <li><a href="./login">登录</a></li>
-                    <li><a href="./register">注册</a></li>
+                    <shiro:guest>
+                        <li><a href="./login">登录</a></li>
+                        <li><a href="./register">注册</a></li>
+                    </shiro:guest>
+                    <shiro:user>
+                        !!!!!!!!!!!!!!!!!!!!
+                    </shiro:user>
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
 
-
+<!--    <div th:if="${#request}">-->
+<!--        <p th:text="${#request.getRemoteUser()}"></p>-->
+<!--        <p th:text="${#}"></p>-->
+<!--    </div>-->
     <div id="myCarousel" class="carousel slide">
         <!-- 轮播（Carousel）指标 -->
         <ol class="carousel-indicators">
