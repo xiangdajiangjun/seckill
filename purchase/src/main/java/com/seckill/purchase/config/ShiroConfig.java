@@ -1,5 +1,8 @@
 package com.seckill.purchase.config;
 
+        import org.apache.shiro.mgt.SessionsSecurityManager;
+        import org.apache.shiro.session.mgt.DefaultSessionManager;
+        import org.apache.shiro.session.mgt.SessionManager;
         import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
         import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
         import org.springframework.context.annotation.Bean;
@@ -42,6 +45,7 @@ public class ShiroConfig {
          */
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/", "anon");
+        filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/image/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
@@ -50,10 +54,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
         filterChainDefinitionMap.put("/files/**", "anon");
-        //似乎不配置就默认无需认证
-        filterChainDefinitionMap.put("/**", "authc");
         //配置注销的URL
         filterChainDefinitionMap.put("/logout", "logout");
+        //似乎不配置就默认无需认证
+        filterChainDefinitionMap.put("/**", "authc");
+
 
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -69,6 +74,7 @@ public class ShiroConfig {
         return new MyRealm();
     }
     //3.2配置Authenticator认证器,认证什么情况下算用户认证通过了，即reaml的使用规则，使用多个还是一个，需要通过几个（有默认暂略）
+
 
     //3.3 配置securityManager
     @Bean

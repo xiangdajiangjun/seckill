@@ -1,0 +1,103 @@
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<!--    <script src="js/jquery-3.4.1.min.js"></script>-->
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+
+
+
+    <style type="text/css">
+        body{background: url(image/wallhaven-ymrw77.jpg) no-repeat;background-size:cover;font-size: 16px;}
+        .form{background: rgba(255,255,255,0.2);width:400px;margin:100px auto;}
+        #login_form{display: block;}
+        /*#register_form{display: none;}*/
+        .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+        input[type="text"],input[type="password"]{padding-left:26px;}
+        .checkbox{padding-left:21px;}
+    </style>
+<!--    <style>-->
+
+<!--        .container1 {-->
+<!--            margin-top: 70px;-->
+<!--            width: 45%;-->
+<!--            margin-left: 30%;-->
+<!--        }-->
+
+<!--        /* 需要在一行的元素 */-->
+<!--        .inline-style {-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--    </style>-->
+
+    <script>
+        $().ready(function() {
+            $("#register_form").validate({
+                rules: {
+                    username: "required",
+                    password: {
+                        required: true,
+                        minlength: 8
+                    },
+                    rpassword: {
+                        equalTo: "#register_password"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    username: "请输入姓名",
+                    password: {
+                        required: "请输入密码",
+                        minlength: "密码长度不能小于8"
+                    },
+                    rpassword: {
+                        equalTo: "两次密码不一样"
+                    },
+                    email: {
+                        required: "请输入邮箱",
+                        email: "请输入有效邮箱"
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="form row">
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form" method="post" action="/register">
+            <h3 class="form-title">Login to your account</h3>
+            <div class="col-sm-9 col-md-9">
+                <div class="form-group">
+                    <i class="fa fa-user fa-lg"></i>
+                    <input class="form-control required" type="text" placeholder="Username" name="username" autofocus="autofocus" id =username/>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-lock fa-lg"></i>
+                    <input class="form-control required" type="password" placeholder="Password" id="register_password" name="password"/>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-check fa-lg"></i>
+                    <input class="form-control required" type="password" placeholder="Re-type Your Password" name="rpassword" id="rpassword"/>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-envelope fa-lg"></i>
+                    <input class="form-control email" type="email" placeholder="Email" name="email" id="id"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success pull-right" id="register_btn"  value="Sign Up "/>
+                    <input type="button" class="btn btn-info pull-left" id="back_btn" value="Back"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
