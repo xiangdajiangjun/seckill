@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>用户注册</title>
@@ -41,7 +43,7 @@
                     username: "required",
                     password: {
                         required: true,
-                        minlength: 8
+                        minlength: 3
                     },
                     rpassword: {
                         equalTo: "#register_password"
@@ -55,7 +57,7 @@
                     username: "请输入姓名",
                     password: {
                         required: "请输入密码",
-                        minlength: "密码长度不能小于8"
+                        minlength: "密码长度不能小于3"
                     },
                     rpassword: {
                         equalTo: "两次密码不一样"
@@ -91,6 +93,7 @@
                     <i class="fa fa-envelope fa-lg"></i>
                     <input class="form-control email" type="email" placeholder="Email" name="email" id="id"/>
                 </div>
+                <h3 align="center"><span class="label label-danger" th:text="${msg}" ></span></h3>
                 <div class="form-group">
                     <input type="submit" class="btn btn-success pull-right" id="register_btn"  value="Sign Up "/>
                     <input type="button" class="btn btn-info pull-left" id="back_btn" value="Back"/>

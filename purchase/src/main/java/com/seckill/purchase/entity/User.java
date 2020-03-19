@@ -1,90 +1,31 @@
 package com.seckill.purchase.entity;
 
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
-
+@Data
 @Entity
-@Table(name = "user", schema = "db_seckill", catalog = "")
+@Table(name = "user", schema = "db_seckill")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     private String realName;
     private String gender;
     private Date birthday;
     private String userLevel;
+    @CreationTimestamp
     private Timestamp createDate;
+    @UpdateTimestamp
     private Timestamp updateDate;
-
-    @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "real_name")
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    @Basic
-    @Column(name = "gender")
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    @Basic
-    @Column(name = "birthday")
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    @Basic
-    @Column(name = "user_level")
-    public String getUserLevel() {
-        return userLevel;
-    }
-
-    public void setUserLevel(String userLevel) {
-        this.userLevel = userLevel;
-    }
-
-    @Basic
-    @Column(name = "create_date")
-    public Timestamp getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Timestamp createDate) {
-        this.createDate = createDate;
-    }
-
-    @Basic
-    @Column(name = "update_date")
-    public Timestamp getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Timestamp updateDate) {
-        this.updateDate = updateDate;
-    }
+    private String email;
+    private String username;
 
     @Override
     public boolean equals(Object o) {

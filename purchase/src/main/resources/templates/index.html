@@ -8,48 +8,30 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
+<!--    <link href="favicon.ico" rel="shortcut icon" />-->
     <title>Navbar Template for Bootstrap</title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap和jq支持 -->
     <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="navbar.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <style type="text/css">
-        #myCarousel  .carousel-inner > .item > a img {
-            display: block;
-            width:100%;
-            height:500px;
-        }
-    </style>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<!--    <style type="text/css">-->
+<!--        #myCarousel  .carousel-inner > .item > a img {-->
+<!--            display: block;-->
+<!--            width:100%;-->
+<!--            height:500px;-->
+<!--        }-->
+<!--    </style>-->
 
 </head>
-
 <body>
-
 <div class="container">
 
     <div class="jumbotron">
         <h1>思蔻.简约风尚</h1>
-        <p>     ————专注独特的购物体验</p>
+        <p>————专注独特的购物体验</p>
         <p>
-            <a class="btn btn-lg btn-primary" href="/" role="button">View navbar docs &raquo;</a>
+            <a class="btn btn-lg btn-primary" href="/" role="button">查看所有商品 &raquo;</a>
         </p>
     </div>
 
@@ -82,21 +64,29 @@
                 <ul class="nav navbar-nav navbar-right">
 <!--                    <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>-->
                     <shiro:guest>
-                        <li><a href="./login">登录</a></li>
-                        <li><a href="./register">注册</a></li>
+                        <li><a href="/login">登录</a></li>
+                        <li><a href="/register">注册</a></li>
                     </shiro:guest>
                     <shiro:user>
-                        !!!!!!!!!!!!!!!!!!!!
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span><shiro:principal/>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">个人信息</a></li>
+                                <li><a href="#">所有订单</a></li>
+                                <li><a href="#">购物车</a></li>
+                                <li><a href="/logout">登出</a></li>
+                            </ul>
+                        </div>
                     </shiro:user>
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
 
-<!--    <div th:if="${#request}">-->
-<!--        <p th:text="${#request.getRemoteUser()}"></p>-->
-<!--        <p th:text="${#}"></p>-->
-<!--    </div>-->
     <div id="myCarousel" class="carousel slide">
         <!-- 轮播（Carousel）指标 -->
         <ol class="carousel-indicators">
@@ -130,12 +120,20 @@
 
 </div>
 
+<!--<footer class="bs-docs-footer">-->
+<!--    <div class="container">-->
+<!--        <ul class="bs-docs-footer-links">-->
+<!--            <li><a href="https://github.com/xiangdajiangjun/seckill">GitHub 仓库</a></li>-->
+<!--            <li><a href="#">管理入口</a></li>-->
+<!--            <li><a href="/">卖家入口</a></li>-->
+<!--            <li><a href="/../about/">关于</a></li>-->
+<!--        </ul>-->
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+<!--        <p>项目作者：xaing</p>-->
+<!--        <p>联系方式：<strong>QQ </strong>512109359</p>-->
+<!--    </div>-->
+<!--</footer>-->
+
+
 </body>
 </html>

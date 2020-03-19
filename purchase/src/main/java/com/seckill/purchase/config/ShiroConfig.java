@@ -1,16 +1,17 @@
 package com.seckill.purchase.config;
 
-        import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-        import org.apache.shiro.mgt.SessionsSecurityManager;
-        import org.apache.shiro.session.mgt.DefaultSessionManager;
-        import org.apache.shiro.session.mgt.SessionManager;
-        import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-        import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-        import org.springframework.context.annotation.Bean;
-        import org.springframework.context.annotation.Configuration;
-        import org.apache.shiro.mgt.SecurityManager;
-
-        import java.util.LinkedHashMap;
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.SessionsSecurityManager;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.apache.shiro.mgt.SecurityManager;
+import java.util.LinkedHashMap;
 
 @Configuration
 public class ShiroConfig {
@@ -71,8 +72,19 @@ public class ShiroConfig {
     //第三个配置：securityManager的相关配置
     //3.1配置一个或多个realm备用
     @Bean
-    public MyRealm myRealm(){
-        return new MyRealm();
+    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        hashedCredentialsMatcher.setHashIterations(3);
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return hashedCredentialsMatcher;
+    }
+
+    @Bean
+    public MyRealm myRealm(HashedCredentialsMatcher hashedCredentialsMatcher){
+        MyRealm myRealm =new MyRealm();
+        myRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+        return myRealm;
     }
     //3.2配置Authenticator认证器,认证什么情况下算用户认证通过了，即reaml的使用规则，使用多个还是一个，需要通过几个（有默认暂略）
 

@@ -1,6 +1,8 @@
 package com.seckill.purchase.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -29,10 +31,9 @@ public class Account {
     @Column(name = "type")
     private String type;
     @Basic
-    @Column(name = "create_date")
+    @CreationTimestamp
     private Timestamp createDate;
-    @Basic
-    @Column(name = "update_date")
+    @UpdateTimestamp
     private Timestamp updateDate;
     
     @ManyToMany(targetEntity = Role.class,fetch= FetchType.EAGER)//立即从数据库中进行加载数据;

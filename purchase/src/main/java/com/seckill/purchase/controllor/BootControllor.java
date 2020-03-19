@@ -1,9 +1,12 @@
 package com.seckill.purchase.controllor;
 
+import com.seckill.purchase.dto.RegisterDto;
 import com.seckill.purchase.entity.Account;
+import com.seckill.purchase.service.AccountService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/")
 public class BootControllor {
 
+    @Autowired
+    private AccountService accountService;
     @GetMapping("/login")
     public String login(){
 //        SecurityUtils.getSubject().getSession().setTimeout(0);
@@ -43,9 +48,19 @@ public class BootControllor {
         return"403";
     }
 
-    @RequestMapping("/register")
-    public String signup(Account account){
-        System.out.println(account.getPassword());
+    @GetMapping("/register")
+    public String signup(){
+        return "register";
+    }
+    @PostMapping("/register")
+    public String signup(RegisterDto registerDto, Model model){
+        String msg = accountService.registerAccount(registerDto);
+        if (msg!=null){
+            if(msg.equals("success"))
+                return "register-success";
+            else
+                model.addAttribute("msg",msg);
+        }
         return "register";
     }
 }
