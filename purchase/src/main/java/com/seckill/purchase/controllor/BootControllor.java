@@ -63,4 +63,5 @@ public class BootControllor {
         }
         return "register";
     }
+
 }

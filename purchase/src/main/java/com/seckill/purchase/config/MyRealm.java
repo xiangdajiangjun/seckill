@@ -1,9 +1,12 @@
 package com.seckill.purchase.config;
 
 import com.seckill.purchase.entity.Account;
+import com.seckill.purchase.entity.Permission;
+import com.seckill.purchase.entity.Role;
 import com.seckill.purchase.service.AccountService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -18,7 +21,17 @@ public class MyRealm extends AuthorizingRealm {
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        //这里不能直接强制转换成实体比如 （Account），应该通过名字查到数据库的对应数据
+        String username = (String)principalCollection.getPrimaryPrincipal();
+        Account account  =accountService.getAccount(username); ;
+        for(Role role:account.getRoleList()){
+            authorizationInfo.addRole(role.getName());
+            for(Permission permission:role.getPermissionList()){
+                authorizationInfo.addStringPermission(permission.getPermission());
+            }
+        }
+        return authorizationInfo;
     }
 
     //验证

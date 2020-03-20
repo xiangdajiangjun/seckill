@@ -56,12 +56,16 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
         filterChainDefinitionMap.put("/files/**", "anon");
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
         //配置注销的URL
         filterChainDefinitionMap.put("/logout", "logout");
+
+
+        //权限配置
+        filterChainDefinitionMap.put("/newGoods","perms[see_new_goods]");
+        filterChainDefinitionMap.put("/seckill","perms[into_seckill]");
         //似乎不配置就默认无需认证
         filterChainDefinitionMap.put("/**", "authc");
-
-
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

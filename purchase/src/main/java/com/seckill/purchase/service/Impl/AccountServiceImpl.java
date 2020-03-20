@@ -4,6 +4,8 @@ import com.seckill.purchase.dao.AccountDao;
 import com.seckill.purchase.dao.UserDao;
 import com.seckill.purchase.dto.RegisterDto;
 import com.seckill.purchase.entity.Account;
+import com.seckill.purchase.entity.Permission;
+import com.seckill.purchase.entity.Role;
 import com.seckill.purchase.entity.User;
 import com.seckill.purchase.service.AccountService;
 import com.seckill.purchase.service.exception.SginException;
@@ -17,6 +19,10 @@ import org.omg.CORBA.UnknownUserException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
@@ -71,5 +77,17 @@ public class AccountServiceImpl implements AccountService {
     public String encryptor(Account account) {
         String newPassword = new Md5Hash(account.getPassword(), ByteSource.Util.bytes(account.getSalt()),3).toString();
         return newPassword;
+    }
+
+    @Override
+    public Map<Role, List<Permission>> getRoleAndPermission(Account account) {
+        Map<Role, List<Permission>> roleListMap = new HashMap<>();
+        List<Role> roleList = account.getRoleList();
+        List<Permission> permissionList;
+        for (Role role:roleList){
+            permissionList = new ArrayList<>();
+
+        }
+        return null;
     }
 }
