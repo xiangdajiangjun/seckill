@@ -2,6 +2,7 @@ package com.seckill.purchase.controllor;
 
 import com.seckill.purchase.dto.RegisterDto;
 import com.seckill.purchase.entity.Account;
+import com.seckill.purchase.entity.GoodType;
 import com.seckill.purchase.service.AccountService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -19,6 +21,14 @@ public class BootControllor {
 
     @Autowired
     private AccountService accountService;
+
+    @RequestMapping("/")
+    public String index(Model model){
+        List<GoodType> goodTypeList = accountService.getGoodType();
+        model.addAttribute("good_type",goodTypeList);
+        return "index";
+    }
+
     @GetMapping("/login")
     public String login(){
 //        SecurityUtils.getSubject().getSession().setTimeout(0);

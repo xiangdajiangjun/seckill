@@ -1,56 +1,22 @@
 package com.seckill.purchase.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "good_type", schema = "db_seckill", catalog = "")
 public class GoodType {
+    @Id
     private int id;
     private String tag;
     private Timestamp createTime;
     private Timestamp updateDate;
-
-    @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Basic
-    @Column(name = "tag")
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    @Basic
-    @Column(name = "create_time")
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    @Basic
-    @Column(name = "update_date")
-    public Timestamp getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Timestamp updateDate) {
-        this.updateDate = updateDate;
-    }
+    private Boolean isAvailable;
 
     @Override
     public boolean equals(Object o) {

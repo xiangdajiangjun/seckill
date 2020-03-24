@@ -1,12 +1,10 @@
 package com.seckill.purchase.service.Impl;
 
 import com.seckill.purchase.dao.AccountDao;
+import com.seckill.purchase.dao.GoodTypeDao;
 import com.seckill.purchase.dao.UserDao;
 import com.seckill.purchase.dto.RegisterDto;
-import com.seckill.purchase.entity.Account;
-import com.seckill.purchase.entity.Permission;
-import com.seckill.purchase.entity.Role;
-import com.seckill.purchase.entity.User;
+import com.seckill.purchase.entity.*;
 import com.seckill.purchase.service.AccountService;
 import com.seckill.purchase.service.exception.SginException;
 import org.apache.shiro.authc.AccountException;
@@ -23,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
@@ -30,6 +29,8 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
     @Resource
     private UserDao userDao;
+    @Resource
+    private GoodTypeDao goodTypeDao;
 
     @Override
     public Account getAccount(String username) {
@@ -89,5 +90,11 @@ public class AccountServiceImpl implements AccountService {
 
         }
         return null;
+    }
+
+    @Override
+    public List<GoodType> getGoodType() {
+
+        return goodTypeDao.findAll().stream().filter(GoodType::getIsAvailable).collect(Collectors.toList());
     }
 }

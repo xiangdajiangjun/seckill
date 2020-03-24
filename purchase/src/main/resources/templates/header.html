@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<div th:fragment="hearder">
+    <div class="jumbotron">
+        <h1>思蔻.简约风尚</h1>
+        <p>————专注独特的购物体验</p>
+        <p>
+            <a class="btn btn-lg btn-primary" href="/" role="button">查看所有商品 &raquo;</a>
+        </p>
+    </div>
+
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">微购物</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="./">主页</a></li>
+                    <li><a href="/newGoods" >新货</a></li>
+                    <li><a href="/seckill">秒杀活动</a></li>
+                    <li class="kinds">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品分类 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu" th:each="type:${good_type}" >
+                                <a href="#" th:text="${type.tag}" > </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!--                    <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>-->
+                    <shiro:guest>
+                        <li><a href="/login">登录</a></li>
+                        <li><a href="/register">注册</a></li>
+                    </shiro:guest>
+                    <shiro:user>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span><shiro:principal/>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">个人信息</a></li>
+                                <li><a href="#">所有订单</a></li>
+                                <li><a href="#">购物车</a></li>
+                                <li><a href="/logout">登出</a></li>
+                            </ul>
+                        </div>
+                    </shiro:user>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+</div>
+</html>

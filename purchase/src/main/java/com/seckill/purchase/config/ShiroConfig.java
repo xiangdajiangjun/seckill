@@ -48,15 +48,11 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/register", "anon");
-        filterChainDefinitionMap.put("/image/**", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/docs/**", "anon");
-        filterChainDefinitionMap.put("/druid/**", "anon");
-        filterChainDefinitionMap.put("/upload/**", "anon");
-        filterChainDefinitionMap.put("/files/**", "anon");
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
+        filterChainDefinitionMap.put("**/image/**", "anon");
+        filterChainDefinitionMap.put("**/css/**", "anon");
+        filterChainDefinitionMap.put("**/js/**", "anon");
+        filterChainDefinitionMap.put("**/fonts/**", "anon");
+        filterChainDefinitionMap.put("**.ico", "anon");
         //配置注销的URL
         filterChainDefinitionMap.put("/logout", "logout");
 
