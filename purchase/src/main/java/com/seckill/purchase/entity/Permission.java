@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Permission {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;//主键.
     @Basic
     @Column(name = "name")

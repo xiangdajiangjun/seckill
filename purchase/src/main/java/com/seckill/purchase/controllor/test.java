@@ -4,15 +4,19 @@ import com.seckill.purchase.dao.AccountDao;
 import com.seckill.purchase.dao.RoleDao;
 import com.seckill.purchase.entity.Account;
 import com.seckill.purchase.entity.Role;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seckill.purchase.service.ImageService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
-@RestController
-@RequestMapping("/za")
+@Controller
+@RequestMapping("/test")
 public class test {
+    @Resource
+    private ImageService imageService;
     @Resource
     private AccountDao accountDao;
     @Resource
@@ -24,5 +28,19 @@ public class test {
         account.getRoleList().add(relo);
         //accountDao.save(account);
         return account.getRoleList().toString();
+    }
+
+    @GetMapping("/img")
+    public String img(){
+
+        return "test";
+    }
+
+    @ResponseBody
+    @PostMapping("img")
+    public String img(@RequestParam("img") MultipartFile img) throws IOException {
+
+
+        return imageService.writeImage(img.getBytes());
     }
 }

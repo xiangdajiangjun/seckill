@@ -29,6 +29,11 @@ public class BootControllor {
         return "index";
     }
 
+    @RequestMapping("/seckill")
+    public String seck(){
+        return "seck";
+    }
+
     @GetMapping("/login")
     public String login(){
 //        SecurityUtils.getSubject().getSession().setTimeout(0);

@@ -11,6 +11,7 @@ import java.util.Objects;
 @Table(name = "good_type", schema = "db_seckill", catalog = "")
 public class GoodType {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String tag;
     private Timestamp createTime;

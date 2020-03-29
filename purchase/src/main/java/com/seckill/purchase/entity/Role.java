@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "role", schema = "db_seckill")
 public class Role {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // 编号
     @Basic
     @Column(name = "name")
