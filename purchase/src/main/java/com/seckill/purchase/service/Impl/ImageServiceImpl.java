@@ -16,7 +16,7 @@ public class ImageServiceImpl implements ImageService {
         String imageId = UUID.randomUUID().toString().replace("-", "").toLowerCase();
         System.out.println(img.length);
         try {
-            OutputStream outputStream = new FileOutputStream(preflix+imageId+postFlix);
+            OutputStream outputStream = new FileOutputStream(prefix+imageId+postFix);
             outputStream.write(img);
             outputStream.close();
             return imageId;

@@ -1,8 +1,10 @@
 package com.seckill.purchase.service;
 
+import com.seckill.purchase.utils.ConstantAll;
+
 public interface ImageService {
-    String preflix = "D:\\IdeaProjects\\seckill\\image\\";
-    String postFlix = ".jpg";
+    String prefix = ConstantAll.GOOD_IMAGE_URL;
+    String postFix = ConstantAll.IMAGE_TYPE_JPG;
     String writeImage(byte[] img);
     byte[] readImage();
 }
