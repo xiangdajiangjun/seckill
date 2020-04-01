@@ -31,8 +31,7 @@ public class GoodControllor {
         List<GoodType> goodTypeList = accountService.getGoodType();
         model.addAttribute("good_type",goodTypeList);
         //橱窗列表
-        System.out.println(goodService.getAllWindow(page).getList().toString());
-        //model.addAttribute("page",page);
+        model.addAttribute("page",goodService.getAllWindow(page));
         return "goodlist";
     }
 }

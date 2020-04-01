@@ -1,5 +1,6 @@
 package com.seckill.purchase.utils;
 
+import lombok.Data;
 import org.hibernate.mapping.Collection;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.ArrayUtils;
@@ -8,7 +9,7 @@ import sun.security.util.ArrayUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Data
 public class PageUtil<T> {
 
     private Integer pageSize= ConstantAll.PAGE_SIZE;//一页显示条数 ;
