@@ -9,6 +9,10 @@
     <script th:src="@{/js/bootstrap.min.js}" ></script>
 
     <style>
+        .thumbnail img{
+            width: 300px;
+            height: 200px;
+        }
         #pagebar{
             text-align: center;
         }
@@ -20,14 +24,14 @@
     <div class="row">
         <div th:each="good:${page.list}">
 
-            <div class="col-sm-3 col-md-2"  th:object="${good}">
+            <div class="col-sm-5 col-md-3"  th:object="${good}">
                 <div class="thumbnail">
-                    <img th:src="*{img}" alt="asD">
+                    <img th:src="*{img}" alt="asD" class="img-responsive center-block">
                     <div class="caption">
                         <h3 th:text="*{name}">Thumbnail label</h3>
                         <p th:text="*{describe}"></p>
-                        <p th:text="*{shopId}"></p>
-                        <p><a href="#" class="btn btn-primary" role="button">详情</a> <a href="#" class="btn btn-default" role="button">加入购物车</a></p>
+                        <p th:text="'价格：'+*{price}"></p>
+                        <p><a th:href="@{'/good/info?goodId='+*{goodId}}" class="btn btn-primary" role="button">详情</a> <a href="#" class="btn btn-default" role="button">加入购物车</a></p>
                     </div>
                 </div>
             </div>
