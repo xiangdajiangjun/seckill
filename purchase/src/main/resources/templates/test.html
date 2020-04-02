@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,5 +9,6 @@
     <input type="file" name="img">
     <input type="submit">
 </form>
+<img th:src="${img1}" alt="123">
 </body>
 </html>

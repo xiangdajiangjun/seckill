@@ -6,5 +6,5 @@ public interface ImageService {
     String prefix = ConstantAll.GOOD_IMAGE_URL;
     String postFix = ConstantAll.IMAGE_TYPE_JPG;
     String writeImage(byte[] img);
-    byte[] readImage();
+    String readImage(Integer id);
 }

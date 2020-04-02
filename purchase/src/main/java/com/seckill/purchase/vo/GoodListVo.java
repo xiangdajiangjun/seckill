@@ -15,4 +15,5 @@ public class GoodListVo {
     private String stock;//库存
     private String describe;//描述
     private Integer salesVolume;//销量（总）
+    private String img;//商品图片
 }

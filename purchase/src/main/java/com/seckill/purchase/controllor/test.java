@@ -6,6 +6,7 @@ import com.seckill.purchase.entity.Account;
 import com.seckill.purchase.entity.Role;
 import com.seckill.purchase.service.ImageService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,16 +32,26 @@ public class test {
     }
 
     @GetMapping("/img")
-    public String img(){
-
+    public String img(Model model){
+        String img = imageService.readImage(1);
+        model.addAttribute("img1","data:image/jpg;base64,"+img);
         return "test";
     }
 
     @ResponseBody
-    @PostMapping("img")
-    public String img(@RequestParam("img") MultipartFile img) throws IOException {
+    @PostMapping("/img")
+    public String imgW(@RequestParam("img") MultipartFile img) throws IOException {
 
 
         return imageService.writeImage(img.getBytes());
+    }
+
+    @ResponseBody
+    @GetMapping("/imgR")
+    public String imgR(Model model) throws IOException {
+        String img = imageService.readImage(1);
+        model.addAttribute("img1",img);
+
+        return img;
     }
 }

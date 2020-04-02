@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface GoodDao extends JpaRepository<Goods,Long> {
     List<Goods> findByIdIn(Collection<Integer> idList);
+    Goods findById(Integer id);
 }
