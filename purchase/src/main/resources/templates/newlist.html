@@ -23,7 +23,7 @@
     <div th:replace="header"></div>
     <div th:if="${page.pageTotal==0}">
         <strong>
-            对不起，暂无上架商品。
+            对不起，今日无新货发布。
         </strong>
     </div>
     <div class="row">
@@ -47,7 +47,7 @@
         <ul class="pagination pagination-lg">
             <!--        上一页按钮-->
             <li th:if="${page.currentPage!=1}">
-                <a th:href="@{'/good/list?page='+${page.currentPage-1}}" aria-label="Previous">
+                <a th:href="@{'/good/new?page='+${page.currentPage-1}}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -58,7 +58,7 @@
 
             <!--        前几页-->
             <li th:each="i:${#numbers.sequence(1,(page.currentPage)-1)}" th:if="${page.currentPage!=1}">
-                <a th:href="@{'/good/list?page='+${i}}" th:text="${i}"></a>
+                <a th:href="@{'/good/new?page='+${i}}" th:text="${i}"></a>
             </li>
             <!--当前页-->
             <li class="active">
@@ -66,12 +66,12 @@
             </li>
             <!--后几页-->
             <li th:each="i2:${#numbers.sequence(page.currentPage+1,page.pageTotal)}" th:if="${page.currentPage!=page.pageTotal}">
-                <a th:href="@{'/good/list?page='+${i2}}" th:text="${i2}"></a>
+                <a th:href="@{'/good/new?page='+${i2}}" th:text="${i2}"></a>
             </li>
 
             <!--        下一页按钮-->
             <li th:if="${page.currentPage!=page.pageTotal}">
-                <a th:href="@{'/good/list?page='+${page.currentPage+1}}" aria-label="Next">
+                <a th:href="@{'/good/new?page='+${page.currentPage+1}}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

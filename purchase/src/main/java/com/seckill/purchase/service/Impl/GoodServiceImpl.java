@@ -12,10 +12,8 @@ import com.seckill.purchase.vo.GoodListVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +29,19 @@ public class GoodServiceImpl implements GoodService {
     public PageUtil getAllWindow(Integer currentPage) {
         //橱窗列表
         List<Window> windowList = windowDao.findAll();
+        return resultPack(windowList,currentPage);
+    }
+    @Override
+    public PageUtil getNewWindow(Integer currentPage) {
+        //橱窗列表
+        List<Window> windowList = windowDao.findAll();
+        //只返回当天上架的商品
+        windowList = windowList.stream().filter(window -> window.getCreateDate().toLocalDateTime().toLocalDate().equals(LocalDate.now())).collect(Collectors.toList());
+        return resultPack(windowList,currentPage);
+
+    }
+
+    private PageUtil resultPack(List<Window> windowList,Integer currentPage){
         //商品列表
         List<Integer> goodIdList = windowList.stream().map(Window::getGoodId).collect(Collectors.toList());
         //根据商品id映射的橱窗数据
@@ -51,7 +62,7 @@ public class GoodServiceImpl implements GoodService {
         }
 
 
-        PageUtil<GoodListVo> pageUtil =new PageUtil<GoodListVo>(currentPage);
+        PageUtil<GoodListVo> pageUtil =PageUtil.createPage(currentPage);
         try {
             pageUtil.doPage(goodListVoList);
 

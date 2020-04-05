@@ -7,6 +7,7 @@ import org.thymeleaf.util.ArrayUtils;
 import sun.security.util.ArrayUtil;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 @Data
@@ -23,8 +24,14 @@ public class PageUtil<T> {
     private List<T> list;
 
 
-    public PageUtil(Integer currentPage){
+    private PageUtil(Integer currentPage){
         this.currentPage=currentPage;
+    }
+    public static PageUtil createPage(Integer currentPage){
+        return new PageUtil(currentPage);
+    }
+    public static PageUtil createPage(Integer currentPage, Comparator comparator){
+        return new PageUtil(currentPage);
     }
     public List<T> getList(){
         return this.list;

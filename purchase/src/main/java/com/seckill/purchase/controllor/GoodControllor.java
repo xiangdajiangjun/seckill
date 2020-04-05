@@ -20,8 +20,13 @@ public class GoodControllor {
     @Resource
     private AccountService accountService;
     @RequestMapping("/new")
-    public String newGood(){
-        return "dsffsd";
+    public String newGood(@RequestParam(value = "page",required = false,defaultValue = "1")Integer page, Model model){
+        //分类信息
+        List<GoodType> goodTypeList = accountService.getGoodType();
+        model.addAttribute("good_type",goodTypeList);
+        //橱窗列表
+        model.addAttribute("page",goodService.getNewWindow(page));
+        return "newlist";
     }
 
 

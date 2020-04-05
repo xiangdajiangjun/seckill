@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface GoodService {
     PageUtil getAllWindow(Integer currentPage);
+    PageUtil getNewWindow(Integer currentPage);
 }
