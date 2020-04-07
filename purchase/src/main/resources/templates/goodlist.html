@@ -8,7 +8,7 @@
 <!--    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>-->
     <script th:src="@{/js/jquery.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}" ></script>
-    <script th:src="@{/js/test.js}"></script>
+    <script th:src="@{/js/alert.js}"></script>
     <style>
         .thumbnail img{
             width: 300px;
@@ -32,12 +32,12 @@
 
             <div class="col-sm-5 col-md-3"  th:object="${good}">
                 <div class="thumbnail">
-                    <img th:src="*{img}" alt="asD" class="img-responsive center-block">
+                    <img th:src="*{image}" alt="asD" class="img-responsive center-block">
                     <div class="caption">
                         <h3 style="color: #ec971f" th:text="'¥'+*{price}"></h3>
                         <h4 th:text="*{name}">Thumbnail label</h4>
                         <p th:text="*{describe}"></p>
-                        <p><a th:href="@{'/good/info?goodId='+*{goodId}}" class="btn btn-primary" role="button">详情</a> <a class="btn btn-default" role="button" th:onclick="addgood([[*{goodId}]])" >加入购物车</a></p>
+                        <p><a th:href="@{'/good/info?goodId='+*{id}}" class="btn btn-primary" role="button">详情</a> <a class="btn btn-default" role="button" th:onclick="addgood([[*{id}]])" >加入购物车</a></p>
                     </div>
                 </div>
             </div>

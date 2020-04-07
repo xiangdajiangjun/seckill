@@ -29,4 +29,8 @@ public class CartController {
         }
 
     }
+    @RequestMapping("/list")
+    public void seeList(){
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
+    }
 }

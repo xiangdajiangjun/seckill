@@ -33,7 +33,7 @@ public class test {
 
     @GetMapping("/img")
     public String img(Model model){
-        String img = imageService.readImage(1);
+        String img = imageService.readImage("");
         model.addAttribute("img1","data:image/jpg;base64,"+img);
         return "test";
     }
@@ -49,7 +49,7 @@ public class test {
     @ResponseBody
     @GetMapping("/imgR")
     public String imgR(Model model) throws IOException {
-        String img = imageService.readImage(1);
+        String img = imageService.readImage("");
         model.addAttribute("img1",img);
 
         return img;

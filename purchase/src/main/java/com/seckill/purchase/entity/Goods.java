@@ -7,19 +7,26 @@ import java.sql.Timestamp;
 import java.util.Objects;
 @Data
 @Entity
-@Table(name = "goods", schema = "db_seckill", catalog = "")
+@Table(name = "goods", schema = "db_seckill")
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String code;
-    private Long shopId;
-    private Integer isSell;
+    private String name;//商品名
+    private String code;//商品码
+    private Long shopId;//店铺id
+    private Double price;//单价
+    private String stock;//库存
+    @Column(name = "describe")
+    private String describe;//描述
+    private Integer salesVolume;//销量（总）
+
+    @Column(name = "is_sell")
+    private Boolean isSell;
     private Timestamp createDate;
     private Timestamp updateDate;
     @Column(name = "image_url")
-    private String imageUrl;
+    private String image;
 
     @Override
     public boolean equals(Object o) {

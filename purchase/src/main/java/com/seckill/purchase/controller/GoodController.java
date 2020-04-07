@@ -25,7 +25,7 @@ public class GoodController {
         List<GoodType> goodTypeList = accountService.getGoodType();
         model.addAttribute("good_type",goodTypeList);
         //橱窗列表
-        model.addAttribute("page",goodService.getNewWindow(page));
+        model.addAttribute("page",goodService.getNewGoods(page));
         return "newlist";
     }
 
@@ -36,7 +36,7 @@ public class GoodController {
         List<GoodType> goodTypeList = accountService.getGoodType();
         model.addAttribute("good_type",goodTypeList);
         //橱窗列表
-        model.addAttribute("page",goodService.getAllWindow(page));
+        model.addAttribute("page",goodService.getAllGoods(page));
         return "goodlist";
     }
 }

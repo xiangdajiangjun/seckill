@@ -10,8 +10,10 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.io.*;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service("imageService")
 public class ImageServiceImpl implements ImageService {
@@ -36,25 +38,27 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String readImage(Integer id) {
+    public String readImage(String imageId) {
         String imageBase64="";
-        Goods good = goodDao.findById(id);
-        if (good!=null){
-            String imageId = good.getImageUrl();
-            try {
-                InputStream inputStream =new FileInputStream(prefix+imageId+postFix);
-                byte[] data = new byte[inputStream.available()];
-                inputStream.read(data);
-                Base64.Encoder encoder = Base64.getEncoder();
-                imageBase64 = encoder.encodeToString(data);
-                inputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
+        try {
+            InputStream inputStream =new FileInputStream(prefix+imageId+postFix);
+            byte[] data = new byte[inputStream.available()];
+            inputStream.read(data);
+            Base64.Encoder encoder = Base64.getEncoder();
+            imageBase64 = encoder.encodeToString(data);
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return imageBase64;
+    }
+
+    @Override
+    public String readImage(List<Goods> goodsList) {
+        goodsList.forEach(goods->goods.setImage(readImage(goods.getImage())));
+        return null;
     }
 }
