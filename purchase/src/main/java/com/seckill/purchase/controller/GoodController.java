@@ -1,4 +1,4 @@
-package com.seckill.purchase.controllor;
+package com.seckill.purchase.controller;
 
 import com.seckill.purchase.entity.GoodType;
 import com.seckill.purchase.service.AccountService;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/good")
-public class GoodControllor {
+public class GoodController {
 
     @Resource
     private GoodService goodService;

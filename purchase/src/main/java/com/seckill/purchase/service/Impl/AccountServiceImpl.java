@@ -97,4 +97,10 @@ public class AccountServiceImpl implements AccountService {
 
         return goodTypeDao.findAll().stream().filter(GoodType::getIsAvailable).collect(Collectors.toList());
     }
+
+    @Override
+    public User getUserByUserName(String userName) {
+
+        return userDao.findByUsername(userName);
+    }
 }

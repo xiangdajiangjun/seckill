@@ -1,4 +1,4 @@
-package com.seckill.purchase.controllor;
+package com.seckill.purchase.controller;
 
 import com.seckill.purchase.dao.AccountDao;
 import com.seckill.purchase.dao.RoleDao;

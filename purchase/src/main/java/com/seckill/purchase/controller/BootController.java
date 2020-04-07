@@ -1,10 +1,8 @@
-package com.seckill.purchase.controllor;
+package com.seckill.purchase.controller;
 
 import com.seckill.purchase.dto.RegisterDto;
-import com.seckill.purchase.entity.Account;
 import com.seckill.purchase.entity.GoodType;
 import com.seckill.purchase.service.AccountService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class BootControllor {
+public class BootController {
 
     @Autowired
     private AccountService accountService;
@@ -36,11 +34,9 @@ public class BootControllor {
 
     @GetMapping("/login")
     public String login(){
-//        SecurityUtils.getSubject().getSession().setTimeout(0);
         return"login";
     }
 
-    //@ResponseBody
     @PostMapping("/login")
     public void login(HttpServletRequest request, Model model){
         String exception = (String) request.getAttribute("shiroLoginFailure");

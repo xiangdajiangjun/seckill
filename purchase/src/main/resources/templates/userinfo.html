@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{header.html::hearder}"></div>
+    用户名:<div th:text="${userInfo.getUsername()}"></div>
+    真实姓名：<div th:text="${userInfo.getRealName()}"></div>
+    生日：<div th:text="${userInfo.getBirthday()}"></div>
+    身份证：xxx
+    邮箱：<div th:text="${userInfo.getEmail()}"></div>
+</div>
+
+</div>
+</body>
+</html>
