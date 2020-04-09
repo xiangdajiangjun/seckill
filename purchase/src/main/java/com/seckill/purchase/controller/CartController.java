@@ -4,8 +4,10 @@
 package com.seckill.purchase.controller;
 
 import com.seckill.purchase.service.CartService;
+import com.seckill.purchase.vo.CartVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,13 +26,28 @@ public class CartController {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
         if (userName!=null)
         {
-            cartService.addGood(userName,goodId);
-            httpServletResponse.setStatus(200);
+            Boolean isSuccess = cartService.addGood(userName,goodId);
+            if (isSuccess)
+                httpServletResponse.setStatus(200);
+            else
+                httpServletResponse.setStatus(302);
         }
 
     }
     @RequestMapping("/list")
-    public void seeList(){
+    public String seeList(Model model){
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        CartVo cartVo = cartService.seeCart(userName);
+        model.addAttribute("cart",cartVo);
+        return "cart";
+    }
+    @RequestMapping("/delete")
+    public void deleteGoods(@RequestParam("goodid")Integer goodId,HttpServletResponse httpServletResponse){
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        Boolean isSuccess = cartService.deleteGoods(userName,goodId);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(302);
     }
 }

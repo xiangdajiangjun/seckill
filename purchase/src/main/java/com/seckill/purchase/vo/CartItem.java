@@ -6,9 +6,11 @@ import lombok.Data;
 @Data
 @Builder
 public class CartItem {
+    private Integer goodId;
     private String goodName;
-    private Integer count;//数量
+    private Long count;//数量
     private double price;//单价
     private double priceTotal;//总价
+    private Boolean isSell;
 
 }

@@ -10,6 +10,7 @@
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/alert.js}"></script>
 </head>
 <body>
 <div class="container">
@@ -22,37 +23,21 @@
                 <th>数量</th>
                 <th>单价</th>
                 <th>总价</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr th:each="item:${cart.getCartListVoList()}">
                 <td>
-                    <div><strong>尚都比拉2013冬装新款女装 韩版修身呢子大衣 秋冬气质羊毛呢外套</strong>
+                    <div th:if="${item.getIsSell()}"><strong th:text="${item.getGoodName()}">尚都比拉2013冬装新款女装 韩版修身呢子大衣 秋冬气质羊毛呢外套</strong>
+                    </div>
+                    <div th:unless="${item.getIsSell()}"><s th:text="'【已下架】'+${item.getGoodName()}">尚都比拉2013冬装新款女装 韩版修身呢子大衣 秋冬气质羊毛呢外套</s>
                     </div>
                 </td>
-                <td>1</td>
-                <td>&yen;26.00</td>
-                <td>&yen;31,98</td>
-            </tr>
-            <tr>
-                <td>
-                    <div><strong>11*11夏娜 新款斗篷毛呢外套 女秋冬呢子大衣 韩版大码宽松呢大衣</strong>
-                    </div>
-                    <small>双十一特价
-                    </small>
-                </td>
-                <td>2</td>
-                <td>&yen;80.00</td>
-                <td>&yen;196.80</td>
-            </tr>
-            <tr>
-                <td>
-                    <div><strong>2013秋装 新款女装韩版学生秋冬加厚加绒保暖开衫卫衣 百搭女外套</strong>
-                    </div>
-                </td>
-                <td>3</td>
-                <td>&yen;420.00</td>
-                <td>&yen;1033.20</td>
+                <td th:text="${item.getCount()}">1</td>
+                <td th:text="'￥'+${item.getPrice()}">26.00</td>
+                <td th:text="'￥'+${item.getPriceTotal()}">31,98</td>
+                <td><a role="button" th:onclick="deletegood([[${item.getGoodId()}]])">删除</a> </td>
             </tr>
 
             </tbody>
@@ -65,17 +50,17 @@
         <tr>
             <td><strong>总价：</strong>
             </td>
-            <td>&yen;1026.00</td>
+            <td th:text="'￥'+${cart.getFirstPrice()}">&yen;1026.00</td>
         </tr>
         <tr>
             <td><strong>折扣：</strong>
             </td>
-            <td>&yen;-10</td>
+            <td th:text="'￥'+${cart.getDiscount()}">&yen;-10</td>
         </tr>
         <tr>
             <td><strong>总计</strong>
             </td>
-            <td>&yen;1261.98</td>
+            <td th:text="'￥'+${cart.getPriceTotal()}">&yen;1261.98</td>
         </tr>
         </tbody>
     </table>

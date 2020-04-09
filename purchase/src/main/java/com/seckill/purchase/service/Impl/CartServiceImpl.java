@@ -24,7 +24,11 @@ public class CartServiceImpl implements CartService {
     private CartDao cartDao;
     @Override
     public Boolean addGood(String userName, Integer goodId) {
-        goodDao.findById(goodId);
+        Goods goods = goodDao.findById(goodId);
+        if(goods==null)
+            return false;
+        else if(!goods.getIsSell())
+            return false;
         Cart cart = cartDao.findByUsername(userName);
         if (cart==null)
             cart=Cart.builder().username(userName).goodList("").build();
@@ -37,16 +41,39 @@ public class CartServiceImpl implements CartService {
     public CartVo seeCart(String userName) {
         //查询本用户购物车
         Cart cart = cartDao.findByUsername(userName);
-        //分割商品id的字符串，处理后得到商品id-该商品数量的map
-        Map<Integer, Long> mapGoodNumber = Arrays.stream(cart.getGoodList().split(" "))
+        //分割商品id的字符串，处理后得到  商品id-该商品数量
+        Map<Integer, Long> mapGoodNumber = Arrays.stream(cart.getGoodList().split("\\s+")).filter(s -> !s.isEmpty())
                 .map(Integer::valueOf).collect(Collectors.groupingBy(id -> id, Collectors.counting()));
         //根据根据商品id查询商品列表,并根据商品id映射
         Map<Integer, Goods> goodMap = goodDao.findByIdIn(mapGoodNumber.keySet()).stream().collect(Collectors.toMap(Goods::getId, good -> good, (k1, k2) -> k1));
-        //封装成条目列表(中断一下重构哈)
+        //封装成条目列表
+        List<CartItem> cartItemList =new ArrayList<>();
         for (Integer goodId:mapGoodNumber.keySet()){
-            Goods good = goodMap.get(goodId);
-//            CartItem cartItem = CartItem.builder().goodName(good.getName()).count(mapGoodNumber.get(goodId)).price();
+            //商品
+            Goods goods = goodMap.get(goodId);
+            //商品数量
+            Long count = mapGoodNumber.get(goodId);
+            //商品总价
+            Double total = count*goods.getPrice();
+            //封装
+            CartItem cartItem = CartItem.builder().goodId(goods.getId()).goodName(goods.getName()).isSell(goods.getIsSell()).count(count).price(goods.getPrice()).priceTotal(total).build();
+            cartItemList.add(cartItem);
         }
-        return null;
+        //封装成购物车清单
+        double sum = cartItemList.stream().filter(CartItem::getIsSell).mapToDouble(CartItem::getPriceTotal).sum();
+        return CartVo.builder().cartListVoList(cartItemList).firstPrice(sum).discount(0).priceTotal(sum).build();
+    }
+
+    @Override
+    public Boolean deleteGoods(String userName,Integer goodId) {
+        try{
+            //查询本用户购物车
+            Cart cart = cartDao.findByUsername(userName);
+            cart.setGoodList(cart.getGoodList().replaceFirst(goodId+"",""));
+            cartDao.save(cart);
+        }catch(Exception e){
+            return false;
+        }
+        return true;
     }
 }
