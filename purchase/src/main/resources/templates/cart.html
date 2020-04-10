@@ -26,7 +26,7 @@
                 <th>操作</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody th:if="${cart.getCartListVoList()!=null}">
             <tr th:each="item:${cart.getCartListVoList()}">
                 <td>
                     <div th:if="${item.getIsSell()}"><strong th:text="${item.getGoodName()}">尚都比拉2013冬装新款女装 韩版修身呢子大衣 秋冬气质羊毛呢外套</strong>
@@ -42,6 +42,7 @@
 
             </tbody>
         </table>
+        <strong th:if="${cart.getCartListVoList()==null}">购物车空空如也~~~</strong>
     </div>
     <!-- /table-responsive -->
 
@@ -55,7 +56,7 @@
         <tr>
             <td><strong>折扣：</strong>
             </td>
-            <td th:text="'￥'+${cart.getDiscount()}">&yen;-10</td>
+            <td th:text="'￥-'+${cart.getDiscount()}">&yen;-10</td>
         </tr>
         <tr>
             <td><strong>总计</strong>
@@ -65,7 +66,7 @@
         </tbody>
     </table>
     <div class="text-right">
-        <button class="btn btn-primary"><i class="fa fa-dollar"></i> 去付款</button>
+        <a class="btn btn-primary" role="button" onclick="pay()">去付款</a>
     </div>
 
     <div class="well m-t"><strong>注意：</strong> 请在30日内完成付款，否则订单会自动取消。
@@ -74,4 +75,8 @@
 
 </div>
 </body>
+
+<footer th:replace="~{footer.html}">
+
+</footer>
 </html>

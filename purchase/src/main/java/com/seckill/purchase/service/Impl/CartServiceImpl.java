@@ -2,20 +2,29 @@ package com.seckill.purchase.service.Impl;
 
 import com.seckill.purchase.dao.CartDao;
 import com.seckill.purchase.dao.GoodDao;
+import com.seckill.purchase.dao.OrderDao;
 import com.seckill.purchase.dao.UserDao;
 import com.seckill.purchase.entity.Cart;
 import com.seckill.purchase.entity.Goods;
+import com.seckill.purchase.entity.Order;
 import com.seckill.purchase.service.CartService;
 import com.seckill.purchase.vo.CartItem;
 import com.seckill.purchase.vo.CartVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("cartService")
 public class CartServiceImpl implements CartService {
+    @Resource
+    private OrderDao orderDao;
     @Resource
     private UserDao userDao;
     @Resource
@@ -41,6 +50,8 @@ public class CartServiceImpl implements CartService {
     public CartVo seeCart(String userName) {
         //查询本用户购物车
         Cart cart = cartDao.findByUsername(userName);
+        if (cart==null)
+            return null;
         //分割商品id的字符串，处理后得到  商品id-该商品数量
         Map<Integer, Long> mapGoodNumber = Arrays.stream(cart.getGoodList().split("\\s+")).filter(s -> !s.isEmpty())
                 .map(Integer::valueOf).collect(Collectors.groupingBy(id -> id, Collectors.counting()));
@@ -74,6 +85,21 @@ public class CartServiceImpl implements CartService {
         }catch(Exception e){
             return false;
         }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean payForCart(String userName) {
+        List<CartItem> cartItemList = seeCart(userName).getCartListVoList().stream().filter(CartItem::getIsSell).collect(Collectors.toList());
+        int userId = userDao.findByUsername(userName).getId();
+        List<Order> orderList = new ArrayList<>();
+        cartItemList.forEach(cartItem -> {
+            Order order = Order.builder().orderTime(Timestamp.valueOf(LocalDateTime.now())).price(cartItem.getPrice()).buyerId(userId).goodsId(cartItem.getGoodId()).goodsName(cartItem.getGoodName()).goodsNum(cartItem.getCount()).status(1).build();
+            orderList.add(order);
+        });
+        orderDao.saveAll(orderList);
+        cartDao.deleteByUsername(userName);
         return true;
     }
 }

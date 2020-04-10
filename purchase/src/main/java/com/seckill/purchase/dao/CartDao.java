@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartDao extends JpaRepository<Cart,Long> {
     Cart findByUsername(String username);
+    void deleteByUsername(String username);
 }

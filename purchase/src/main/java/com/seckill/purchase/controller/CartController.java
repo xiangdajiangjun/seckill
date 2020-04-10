@@ -30,7 +30,7 @@ public class CartController {
             if (isSuccess)
                 httpServletResponse.setStatus(200);
             else
-                httpServletResponse.setStatus(302);
+                httpServletResponse.setStatus(500);
         }
 
     }
@@ -38,6 +38,8 @@ public class CartController {
     public String seeList(Model model){
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
         CartVo cartVo = cartService.seeCart(userName);
+        if (cartVo==null)
+            cartVo=new CartVo();
         model.addAttribute("cart",cartVo);
         return "cart";
     }
@@ -48,6 +50,16 @@ public class CartController {
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
-            httpServletResponse.setStatus(302);
+            httpServletResponse.setStatus(500);
+    }
+
+    @RequestMapping("/pay")
+    public void payForCart(HttpServletResponse httpServletResponse){
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        Boolean isSuccess = cartService.payForCart(userName);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(500);
     }
 }

@@ -1,119 +1,51 @@
 package com.seckill.purchase.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "order", schema = "db_seckill", catalog = "")
+@Data
+@Table(name = "orders", schema = "db_seckill", catalog = "")
 public class Order {
-    private int id;
-    private Timestamp orderTime;
-    private Integer isPay;
-    private Timestamp payTime;
-    private Integer isSend;
-    private Timestamp sendTime;
-    private Integer isFinish;
-    private Timestamp finishTime;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    private int id;//订单号
     @Basic
-    @Column(name = "order_time")
-    public Timestamp getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Timestamp orderTime) {
-        this.orderTime = orderTime;
-    }
-
+    private Integer buyerId;//下单用户id
     @Basic
-    @Column(name = "is_pay")
-    public Integer getIsPay() {
-        return isPay;
-    }
-
-    public void setIsPay(Integer isPay) {
-        this.isPay = isPay;
-    }
-
+    private Integer goodsId;//商品id
+    private String goodsName;
+    private Long goodsNum;//商品数量
+    private double price;
     @Basic
-    @Column(name = "pay_time")
-    public Timestamp getPayTime() {
-        return payTime;
-    }
+    @Column(name = "status")
+    private Integer status;//状态：0初始状态已下单；1已支付；2已发货；3已收货;4已关闭；
+    private Timestamp orderTime;//下单时间
+    private Timestamp payTime;//支付时间
+    private Timestamp sendTime;//发货时间
+    private Timestamp finishTime;//收货/完成时间
 
-    public void setPayTime(Timestamp payTime) {
-        this.payTime = payTime;
-    }
+    @Column(name = "re_order_time")
+    private Timestamp reOrderTime;//退单时间
+    @Column(name = "re_send_time")
+    private Timestamp reSendTime;//卖家收货
+    @Column(name = "re_finish_time")
+    private Timestamp reFinishTime;//退货/收货 完成时间
+    @CreationTimestamp
+    private Timestamp createDate;
+    @UpdateTimestamp
+    private Timestamp updateDate;
 
-    @Basic
-    @Column(name = "is_send")
-    public Integer getIsSend() {
-        return isSend;
-    }
-
-    public void setIsSend(Integer isSend) {
-        this.isSend = isSend;
-    }
-
-    @Basic
-    @Column(name = "send_time")
-    public Timestamp getSendTime() {
-        return sendTime;
-    }
-
-    public void setSendTime(Timestamp sendTime) {
-        this.sendTime = sendTime;
-    }
-
-    @Basic
-    @Column(name = "is_finish")
-    public Integer getIsFinish() {
-        return isFinish;
-    }
-
-    public void setIsFinish(Integer isFinish) {
-        this.isFinish = isFinish;
-    }
-
-    @Basic
-    @Column(name = "finish_time")
-    public Timestamp getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(Timestamp finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order that = (Order) o;
-        return id == that.id &&
-                Objects.equals(orderTime, that.orderTime) &&
-                Objects.equals(isPay, that.isPay) &&
-                Objects.equals(payTime, that.payTime) &&
-                Objects.equals(isSend, that.isSend) &&
-                Objects.equals(sendTime, that.sendTime) &&
-                Objects.equals(isFinish, that.isFinish) &&
-                Objects.equals(finishTime, that.finishTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, orderTime, isPay, payTime, isSend, sendTime, isFinish, finishTime);
-    }
 }

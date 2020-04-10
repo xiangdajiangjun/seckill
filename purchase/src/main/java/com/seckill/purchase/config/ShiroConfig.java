@@ -47,10 +47,10 @@ public class ShiroConfig {
          */
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/", "anon");
-        filterChainDefinitionMap.put("/good/**", "anon");
-        filterChainDefinitionMap.put("/user/**", "anon");
+//        filterChainDefinitionMap.put("/good/**", "anon");
+//        filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
-        filterChainDefinitionMap.put("/cart/**", "anon");
+//        filterChainDefinitionMap.put("/cart/**", "anon");
         filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/**/image/**", "anon");
         filterChainDefinitionMap.put("/**/css/**", "anon");
@@ -62,7 +62,10 @@ public class ShiroConfig {
 
 
         //权限配置
-        filterChainDefinitionMap.put("/newGoods","perms[see_new_goods]");
+        filterChainDefinitionMap.put("/good/**","perms[see_goods]");
+        filterChainDefinitionMap.put("/user/**","perms[user_info]");
+        filterChainDefinitionMap.put("/cart/**","perms[see_cart]");
+        filterChainDefinitionMap.put("/order/**","perms[see_order]");
         filterChainDefinitionMap.put("/seckill","perms[into_seckill]");
         //似乎不配置就默认无需认证
         filterChainDefinitionMap.put("/**", "authc");
