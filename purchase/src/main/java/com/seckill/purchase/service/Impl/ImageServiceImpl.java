@@ -37,6 +37,11 @@ public class ImageServiceImpl implements ImageService {
         return null;
     }
 
+    /**
+     * 将uuid为imageid的图片转化成base64字符串输出
+     * @param imageId
+     * @return
+     */
     @Override
     public String readImage(String imageId) {
         String imageBase64="";

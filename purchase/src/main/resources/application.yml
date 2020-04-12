@@ -23,6 +23,10 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: false
         use_sql_commonts: true
+
+  data:
+    solr:
+      host: http://localhost:8983/solr/seckill/
 eureka:
   client:
     service-url:

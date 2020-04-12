@@ -58,4 +58,24 @@ public class PageUtil<T> {
         long postPage=(currentPage-1)*pageSize;
         this.list = list.stream().skip(postPage).limit(pageSize).collect(Collectors.toList());
     }
+    public void doPageForQuery(List<T> list,Integer numFound) throws Exception {
+        total = numFound;
+        pageTotal = total / pageSize;
+        //若剩余不满一页的条目也算作一页
+        if ((total % pageSize) != 0)
+            pageTotal += 1;
+        if (currentPage > pageTotal)
+            throw new Exception("当前页超过总页数。");
+        if (currentPage.equals(1)) {
+            isFirstPage = true;
+            hasPreviousPage = false;
+        }
+        if (currentPage.equals(pageTotal)) {
+            isLastPage = true;
+            hasNextPage = false;
+        }
+        //这里由于solr已经分页过了，所以根据solr的分页信息对应和计算自己的分页的信息即可，
+        // 数据列表本身已经是分页后的结果，不需要根据这些分页来再截取，否则反而会返回不正确的内容。
+        this.list = list;
+    }
 }

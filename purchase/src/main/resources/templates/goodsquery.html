@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-<!--    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>-->
+    <!--    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>-->
     <script th:src="@{/js/jquery.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}" ></script>
     <script th:src="@{/js/alert.js}"></script>
@@ -48,18 +48,18 @@
         <ul class="pagination pagination-lg">
             <!--        上一页按钮-->
             <li th:if="${page.currentPage!=1}">
-                <a th:href="@{'?page='+${page.currentPage-1}}" aria-label="Previous">
+                <a th:href="@{'?page='+${page.currentPage-1}}+'&queryStatement='+${queryStatement}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li th:unless="${page.currentPage!=1}" class="disabled">
-                    <span aria-hidden="true">&laquo;</span>
+                <span aria-hidden="true">&laquo;</span>
             </li>
 
 
             <!--        前几页-->
             <li th:each="i:${#numbers.sequence(1,(page.currentPage)-1)}" th:if="${page.currentPage!=1}">
-                <a th:href="@{'?page='+${i}}" th:text="${i}"></a>
+                <a th:href="@{'?page='+${i}}+'&queryStatement='+${queryStatement}" th:text="${i}"></a>
             </li>
             <!--当前页-->
             <li class="active">
@@ -67,17 +67,17 @@
             </li>
             <!--后几页-->
             <li th:each="i2:${#numbers.sequence(page.currentPage+1,page.pageTotal)}" th:if="${page.currentPage!=page.pageTotal}">
-                <a th:href="@{'?page='+${i2}}" th:text="${i2}"></a>
+                <a th:href="@{'?page='+${i2}+'&queryStatement='+${queryStatement}}" th:text="${i2}"></a>
             </li>
 
             <!--        下一页按钮-->
             <li th:if="${page.currentPage!=page.pageTotal}">
-                <a th:href="@{'?page='+${page.currentPage+1}}" aria-label="Next">
+                <a th:href="@{'?page='+${page.currentPage+1}+'&queryStatement='+${queryStatement}}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
             <li th:unless="${page.currentPage!=page.pageTotal}" class="disabled">
-                    <span aria-hidden="true">&raquo;</span>
+                <span aria-hidden="true">&raquo;</span>
             </li>
         </ul>
     </nav>
