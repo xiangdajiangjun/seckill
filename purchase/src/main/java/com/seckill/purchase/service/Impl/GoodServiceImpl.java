@@ -1,13 +1,11 @@
 package com.seckill.purchase.service.Impl;
 
-import com.google.gson.Gson;
 import com.seckill.purchase.dao.GoodDao;
 import com.seckill.purchase.entity.Goods;
 import com.seckill.purchase.service.GoodService;
 import com.seckill.purchase.service.ImageService;
 import com.seckill.purchase.utils.ConstantAll;
 import com.seckill.purchase.utils.PageUtil;
-import com.seckill.purchase.vo.GoodListVo;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -42,7 +40,6 @@ public class GoodServiceImpl implements GoodService {
     }
     @Override
     public PageUtil getNewGoods(Integer currentPage) {
-//        windowList = windowList.stream().filter(window -> window.getCreateDate().toLocalDateTime().toLocalDate().equals(LocalDate.now())).collect(Collectors.toList());
         //只返回当天上架的商品
         List<Goods> goodsList = goodDao.findAll().stream().filter(Goods::getIsSell).filter(goods -> goods.getCreateDate().toLocalDateTime().toLocalDate().equals(LocalDate.now())).collect(Collectors.toList());
         //取得每个商品的图片base64码
@@ -72,8 +69,7 @@ public class GoodServiceImpl implements GoodService {
         //设置查询条件
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.set("q",nameLike+desLike);
-//        solrQuery.setQuery("name:*人*");
-        //solrQuery.set("fq","is_sell:true");
+        solrQuery.set("fq","is_sell:true");
         solrQuery.setStart(currentPage-1);
         solrQuery.setRows(ConstantAll.PAGE_SIZE);
 

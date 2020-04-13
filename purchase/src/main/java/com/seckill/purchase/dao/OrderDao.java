@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OrderDao extends JpaRepository<Order,Long> {
     List<Order> findAllByBuyerId(Integer buyerId);
+    Order findById(Integer Id);
 }

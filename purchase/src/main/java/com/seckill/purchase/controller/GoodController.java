@@ -51,6 +51,7 @@ public class GoodController {
         //分类信息
         List<GoodType> goodTypeList = accountService.getGoodType();
         model.addAttribute("good_type",goodTypeList);
+        model.addAttribute("typeId",typeId);
         //橱窗列表
         model.addAttribute("page",goodService.getGoodsList(page,typeId));
         return "goodlist";

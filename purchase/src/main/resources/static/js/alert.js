@@ -25,3 +25,13 @@ function pay() {
             alert("操作失败")
     });
 }
+function changeorderstatus(orderid) {
+    $.get("/order/status?orderId="+orderid,function (data,status) {
+        if (status==="success"){
+            alert("操作成功");
+            location.href='/order/list';
+        }
+        else
+            alert("操作失败");
+    });
+}

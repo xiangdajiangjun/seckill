@@ -6,6 +6,7 @@ import com.seckill.purchase.entity.Order;
 import com.seckill.purchase.service.OrderService;
 import com.seckill.purchase.vo.OrderVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -30,5 +31,16 @@ public class OrderServiceImpl implements OrderService {
             orderVoList.add(orderVo);
         });
         return orderVoList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean operateOderStatus(Integer OrderId) {
+        Order order = orderDao.findById(OrderId);
+        if (order==null)
+            return false;
+        order.setStatus(order.getStatus()+1);
+        orderDao.save(order);
+        return true;
     }
 }

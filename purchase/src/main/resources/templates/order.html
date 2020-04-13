@@ -43,23 +43,23 @@
 
                 <th:block th:if="${order.getStatus()==0}">
                     <td >未支付</td>
-                    <td ><a role="button" >去支付</a>&ensp;<a role="button" >取消订单</a></td>
+                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])" >去支付</a>&ensp;<a th:href="@{'/order/cancel?orderId='+${order.getOrderId()}}" role="button" >取消订单</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==1}">
                     <td >已支付</td>
-                    <td ><a role="button" >申请退款</a></td>
+                    <td ><a role="button" th:href="@{'/order/repay?orderId='+${order.getOrderId()}}" >申请退款</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==2}">
                     <td >已发货</td>
-                    <td ><a role="button" >收货</a>&ensp;<a role="button" >申请退款</a></td>
+                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])">收货</a>&ensp;<a role="button" >申请退款</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==3}">
                     <td >已完成</td>
-                    <td ><a role="button" >申请退换</a></td>
+                    <td ><a role="button" th:href="@{'/order/list?orderId='+${order.getOrderId()}}" >申请退换</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==4}">
                     <td >已关闭</td>
-                    <td ><a role="button" >删除订单</a></td>
+                    <td ><a role="button" th:href="@{'/order/delete?orderId='+${order.getOrderId()}}" >删除订单</a></td>
                 </th:block>
             </tr>
             </tbody>
