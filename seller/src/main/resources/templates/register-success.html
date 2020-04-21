@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>
+    注册成功，<span id='div1'></span>秒后转到登录页面
+</h2>
+
+<p>若未成功跳转，请点击链接进行登录：<a href="/login">-----Login-----</a></p>
+</body>
+</html>
+
+<script type="text/javascript">
+    //设定倒数秒数
+    var t = 5;
+    //显示倒数秒数
+    function showTime(){
+        t -= 1;
+        document.getElementById('div1').innerHTML= t;
+        if(t==0){
+            location.href='../login';
+        }
+//每秒执行一次,showTime()
+        setTimeout("showTime()",1000);
+    }
+    //执行showTime()
+    showTime();
+</script>

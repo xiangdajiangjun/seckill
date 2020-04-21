@@ -1,0 +1,17 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: zuugateway
+
+zuul:
+  routes:
+    purchase:
+      path: /purchase/**
+      url : http://localhost:8080/
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8888/eureka/
