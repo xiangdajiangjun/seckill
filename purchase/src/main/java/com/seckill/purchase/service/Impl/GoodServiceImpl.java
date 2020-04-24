@@ -12,6 +12,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -97,6 +98,52 @@ public class GoodServiceImpl implements GoodService {
         }
 
         return page;
+    }
+
+    @Override
+    public List<Goods> getGoodsListForSeller(Integer shopId) {
+        //获取商品列表
+        List<Goods> goodsList = goodDao.findAll().stream().filter(goods -> goods.getShopId().equals(shopId)).collect(Collectors.toList());
+
+        return goodsList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean delGoods(Integer goodsId) {
+        try{
+            goodDao.deleteById(goodsId);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public Goods getGoodsInfo(Integer goodsId) {
+        Goods goods = goodDao.findById(goodsId);
+        String image = imageService.readImage(goods.getImage());
+        image=ConstantAll.IMAGE_ENCODE+image;
+        goods.setImage(image);
+        return goods;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean alterGoods(Goods goodsDto) {
+        Goods newGoods = goodDao.findById(goodsDto.getId());
+        newGoods.setName(goodsDto.getName());
+        newGoods.setCode(goodsDto.getCode());
+        newGoods.setTypeId(goodsDto.getTypeId());
+        newGoods.setDescribe(goodsDto.getDescribe());
+        newGoods.setPrice(goodsDto.getPrice());
+        goodDao.save(newGoods);
+        return true;
+    }
+
+    @Override
+    public String getGoodsImgUUID(Integer goodsId) {
+        return goodDao.findById(goodsId).getImage();
     }
 }
 

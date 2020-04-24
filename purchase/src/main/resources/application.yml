@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB #单个文件最大
+      max-request-size: 100MB #单词请求所有文件最大
   application:
     name: purchase
   thymeleaf:

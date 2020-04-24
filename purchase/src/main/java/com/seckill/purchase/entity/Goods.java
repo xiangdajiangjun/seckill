@@ -1,6 +1,8 @@
 package com.seckill.purchase.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
@@ -18,11 +20,12 @@ public class Goods {
     @Field("name")
     private String name;//商品名
     private String code;//商品码
-    private Long shopId;//店铺id
+    private Integer shopId;//店铺id
     @Field("price")
     private Double price;//单价
     private String stock;//库存
-    @Field("describe")
+    @Field("goods_describe")
+    @Column(name = "goods_describe")
     private String describe;//描述
     private Integer salesVolume;//销量（总）
 

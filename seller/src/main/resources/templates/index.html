@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/jquery-kq-nav-left.css">
     <script src="/js/index.js"></script>
+    <style>
+        #mainIframe{
+            padding-left: 220px;
+            width: 1126px;
+            height: 600px;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,10 +41,10 @@
 
             <ul class="nav-left-container-small">
                 <li>
-                    <a class="J_menuItem" href="#" onclick="skip('/goodlist')">货物列表</a>
+                    <a class="J_menuItem" href="#" onclick="skip('/goods/list')">商品列表</a>
                 </li>
                 <li>
-                    <a class="J_menuItem" href="#" onclick="skip('/test')">增加商品</a>
+                    <a class="J_menuItem" href="#" onclick="skip('goods/add')">增加商品</a>
                 </li>
                 <li>
                     <a class="J_menuItem" href="#" onclick="skip('/test')">存量管理</a>
@@ -73,7 +80,7 @@
                     <a class="J_menuItem" href="#"  onclick="skip('/test')">所有订单</a>
                 </li>
                 <li>
-                    <a class="J_menuItem" href="#"> onclick="skip('/test')"待发货</a>
+                    <a class="J_menuItem" href="#" onclick="skip('/test')">待发货</a>
                 </li>
                 <li>
                     <a class="J_menuItem" href="#" onclick="skip('/test')">已发货</a>
@@ -115,7 +122,7 @@
         </li>
     </ul>
     <div class="content-wrapper">
-        <iframe id="mainIframe" name="mainIframe" style="padding-left: 220px" width="1146" onload="this.height=700" scrolling="no" frameborder="0" src="/welcome">
+        <iframe id="mainIframe" name="mainIframe" src="/welcome">
         </iframe>
     </div>
 </div>

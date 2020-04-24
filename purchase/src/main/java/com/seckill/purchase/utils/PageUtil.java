@@ -42,6 +42,8 @@ public class PageUtil<T> {
         pageTotal = total/pageSize;
         if((total%pageSize)!=0)
             pageTotal+=1;
+        if(pageTotal==0)
+            return;
         if(currentPage>pageTotal)
             throw new Exception("当前页超过总页数。");
         if (currentPage.equals(1))

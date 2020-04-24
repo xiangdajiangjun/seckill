@@ -12,4 +12,5 @@ public interface GoodDao extends JpaRepository<Goods,Long> {
     List<Goods> findAll();
     List<Goods> findByIdIn(Collection<Integer> idList);
     Goods findById(Integer id);
+    void deleteById(Integer id);
 }

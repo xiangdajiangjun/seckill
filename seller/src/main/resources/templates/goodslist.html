@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/alert.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<style>
+    #pagebar{
+        text-align: center;
+    }
+</style>
+<body>
+<div class="container">
+    <table class="table table-condensed">
+        <caption>本店所有商品</caption>
+        <thead>
+        <tr>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>库存</th>
+            <th>状态</th>
+            <th>类型</th>
+            <th>#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="goods:${page.list}">
+            <td th:text="${goods.getName()}">商品名称</td>
+            <td th:text="${goods.getPrice()}">单价</td>
+            <td th:text="${goods.getStock()}">库存</td>
+            <td th:if="${goods.getIsSell()}">已上架</td>
+            <td th:unless="${goods.getIsSell()}">未上架</td>
+            <td th:text="${goods.getTypeId()}">类型</td>
+            <td><a role="button" th:href="'/goods/info?goodsid='+${goods.getId()}">详情</a>&ensp;<a role="button" th:onclick="delgoods([[${goods.getId()}]])">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav style="padding-top: 350px" aria-label="Page navigation" id="pagebar" th:if="${page.pageTotal!=0}">
+        <ul class="pagination pagination-lg">
+            <!--        上一页按钮-->
+            <li th:if="${page.currentPage!=1}">
+                <a th:href="@{'?page='+${page.currentPage-1}+'&typeId='+${typeId}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:unless="${page.currentPage!=1}" class="disabled">
+                <span aria-hidden="true">&laquo;</span>
+            </li>
+
+
+            <!--        前几页-->
+            <li th:each="i:${#numbers.sequence(1,(page.currentPage)-1)}" th:if="${page.currentPage!=1}">
+                <a th:href="@{'?page='+${i}+'&typeId='+${typeId}}" th:text="${i}"></a>
+            </li>
+            <!--当前页-->
+            <li class="active">
+                <span th:text="${page.currentPage}"></span>
+            </li>
+            <!--后几页-->
+            <li th:each="i2:${#numbers.sequence(page.currentPage+1,page.pageTotal)}" th:if="${page.currentPage!=page.pageTotal}">
+                <a th:href="@{'?page='+${i2}+'&typeId='+${typeId}}" th:text="${i2}"></a>
+            </li>
+
+            <!--        下一页按钮-->
+            <li th:if="${page.currentPage!=page.pageTotal}">
+                <a th:href="@{'?page='+${page.currentPage+1}+'&typeId='+${typeId}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li th:unless="${page.currentPage!=page.pageTotal}" class="disabled">
+                <span aria-hidden="true">&raquo;</span>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

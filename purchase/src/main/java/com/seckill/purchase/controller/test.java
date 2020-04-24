@@ -41,7 +41,8 @@ public class test {
     @ResponseBody
     @PostMapping("/img")
     public String imgW(@RequestParam("img") MultipartFile img) throws IOException {
-
+        if (img.isEmpty())
+            return null;
 
         return imageService.writeImage(img.getBytes());
     }
