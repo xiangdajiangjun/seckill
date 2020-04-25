@@ -11,10 +11,7 @@ import com.seckill.seller.utils.PageUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -25,6 +22,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/goods")
@@ -38,9 +36,11 @@ public class GoodsController {
 
     @RequestMapping("/list")
     public String getGoodsList(Model model, @RequestParam(value = "currentPage",required = false,defaultValue = "1")Integer currentPage) throws Exception {
+        //根据本账号用户查出店铺id
         String keeperName = (String) SecurityUtils.getSubject().getPrincipal();
         int userId = accountService.getUserByUserName(keeperName).getId();
         Integer shopId = shopDao.findByKeepperId(userId).getId();
+        //取出店铺id所有商品然后分页包装
         List<Goods> allGoods = goodsRemote.getAllGoods(shopId);
         PageUtil<Goods> pageUtil = PageUtil.createPage(currentPage);
         pageUtil.doPage(allGoods);
@@ -101,9 +101,78 @@ public class GoodsController {
         }
         return false;
     }
+
     @GetMapping("/add")
-    public String goodsAdd(@RequestParam(value = "goodsid")Integer goodsId){
-        return null;
+    public String goodsAdd(Model model){
+        model.addAttribute("goodstype",goodsRemote.getGoodsType());
+        return "goodsadd";
+    }
+
+    @PostMapping("/add")
+    public void goodsAdd(Goods goodsDto,HttpServletResponse httpServletResponse){
+        //根据本账号用户查出店铺id赋予新增商品
+        String keeperName = (String) SecurityUtils.getSubject().getPrincipal();
+        int userId = accountService.getUserByUserName(keeperName).getId();
+        Integer shopId = shopDao.findByKeepperId(userId).getId();
+        goodsDto.setShopId(shopId);
+        Boolean isSuccess = goodsRemote.alterGoodsInfo(goodsDto);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(500);
+    }
+
+    @GetMapping("/stock")
+    public String getInfo(Model model, @RequestParam(value = "currentPage",required = false,defaultValue = "1")Integer currentPage) throws Exception {
+        //根据本账号用户查出店铺id
+        String keeperName = (String) SecurityUtils.getSubject().getPrincipal();
+        int userId = accountService.getUserByUserName(keeperName).getId();
+        Integer shopId = shopDao.findByKeepperId(userId).getId();
+        //取出店铺id所有商品然后分页包装
+        List<Goods> allGoods = goodsRemote.getAllGoods(shopId);
+        PageUtil<Goods> pageUtil = PageUtil.createPage(currentPage);
+        pageUtil.doPage(allGoods);
+        model.addAttribute("page",pageUtil);
+        return "goodsstock";
+    }
+    @PostMapping("/stock")
+    public void alterStock(Goods goodsDto,HttpServletResponse httpServletResponse){
+        Boolean isSuccess = goodsRemote.alterStock(goodsDto);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(500);
+    }
+
+    @RequestMapping("/sell")
+    public String sellStatus(Model model,@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage, @RequestParam(value = "status") String status){
+        //根据本账号用户查出店铺id
+        String keeperName = (String) SecurityUtils.getSubject().getPrincipal();
+        int userId = accountService.getUserByUserName(keeperName).getId();
+        Integer shopId = shopDao.findByKeepperId(userId).getId();
+        //取出店铺id所有商品然后分页包装
+        List<Goods> allGoods = goodsRemote.getAllGoods(shopId);
+        if (status.equals("is"))
+            allGoods=allGoods.stream().filter(Goods::getIsSell).collect(Collectors.toList());
+        else
+            allGoods=allGoods.stream().filter(goods -> !(goods.getIsSell())).collect(Collectors.toList());
+        PageUtil<Goods> pageUtil = PageUtil.createPage(currentPage);
+        try {
+            pageUtil.doPage(allGoods);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        model.addAttribute("page",pageUtil);
+        return "goods_is_sell_list";
+    }
+    @RequestMapping("/sellstatus")
+    public void changeSellStatus(@RequestParam(value = "goodsid") Integer goodsId,HttpServletResponse httpServletResponse){
+        Boolean isSuccess = goodsRemote.changeSellStatus(goodsId);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(500);
     }
 
 

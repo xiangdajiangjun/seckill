@@ -14,4 +14,6 @@ public interface GoodService {
     Goods getGoodsInfo(Integer goodsId);
     Boolean alterGoods(Goods goodsDto);
     String getGoodsImgUUID(Integer goodsId);
+    Boolean alterStock(Goods goodsDto);
+    Boolean alterSell(Integer goodsId);
 }

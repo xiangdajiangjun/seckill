@@ -131,19 +131,46 @@ public class GoodServiceImpl implements GoodService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean alterGoods(Goods goodsDto) {
-        Goods newGoods = goodDao.findById(goodsDto.getId());
-        newGoods.setName(goodsDto.getName());
-        newGoods.setCode(goodsDto.getCode());
-        newGoods.setTypeId(goodsDto.getTypeId());
-        newGoods.setDescribe(goodsDto.getDescribe());
-        newGoods.setPrice(goodsDto.getPrice());
-        goodDao.save(newGoods);
+        if(goodsDto.getId()==0){
+            goodsDto.setIsSell(false);
+            goodsDto.setStock("0");
+            goodsDto.setImage(UUID.randomUUID().toString().replace("-", "").toLowerCase());
+            goodDao.save(goodsDto);
+        }else{
+            Goods newGoods = goodDao.findById(goodsDto.getId());
+            newGoods.setName(goodsDto.getName());
+            newGoods.setCode(goodsDto.getCode());
+            newGoods.setTypeId(goodsDto.getTypeId());
+            newGoods.setDescribe(goodsDto.getDescribe());
+            newGoods.setPrice(goodsDto.getPrice());
+            goodDao.save(newGoods);
+        }
         return true;
     }
 
     @Override
     public String getGoodsImgUUID(Integer goodsId) {
         return goodDao.findById(goodsId).getImage();
+    }
+
+    @Transactional
+    @Override
+    public Boolean alterStock(Goods goodsDto) {
+        if (goodsDto.getId()==0||goodsDto.getStock()==null)
+            return false;
+        Goods newGoods = goodDao.findById(goodsDto.getId());
+        newGoods.setStock(goodsDto.getStock());
+        goodDao.save(newGoods);
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean alterSell(Integer goodsId) {
+        Goods goods = goodDao.findById(goodsId);
+        goods.setIsSell(!goods.getIsSell());
+        goodDao.save(goods);
+        return true;
     }
 }
 

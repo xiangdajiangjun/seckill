@@ -51,10 +51,22 @@ public class GoodsApi {
     public Boolean alterGoodsInfo(@RequestBody Goods goodsDto){
         return goodService.alterGoods(goodsDto);
     }
+
     @RequestMapping(value = "/imguuid")
     @ResponseBody
     public String alterGoodsImgUuid(@RequestParam("goodsId") Integer goodsId){
-
         return goodService.getGoodsImgUUID(goodsId);
+    }
+
+    @RequestMapping(value = "/stock")
+    @ResponseBody
+    Boolean alterStock(@RequestBody Goods goodsDto){
+        return goodService.alterStock(goodsDto);
+    }
+
+    @RequestMapping("/sellstatus")
+    @ResponseBody
+    Boolean changeSellStatus(@RequestParam("goodsId") Integer goodsId){
+        return goodService.alterSell(goodsId);
     }
 }

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/alert.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="table-responsive m-t">
+        <table class="table invoice-table">
+            <thead>
+            <tr>
+                <th>多选</th>
+                <th>订单号</th>
+                <th>商品</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>总价</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order:${allorder}">
+                <td ><input type="checkbox" aria-label="..."></td>
+                <td th:text="${order.getOrderId()}">1</td>
+                <td>
+                    <div><strong th:text="${order.getGoodName()}">尚都比拉2013冬装新款女装 韩版修身呢子大衣 秋冬气质羊毛呢外套</strong>
+                    </div>
+                </td>
+                <td th:text="'￥'+${order.price}" >26.00</td>
+                <td th:text="${order.getCount()}">1</td>
+                <td th:text="'￥'+${order.getPriceTotal()}">26.00</td>
+
+                <th:block th:if="${order.getStatus()==0}">
+                    <td >未支付</td>
+                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])" >去支付</a>&ensp;<a th:href="@{'/order/cancel?orderId='+${order.getOrderId()}}" role="button" >取消订单</a></td>
+                </th:block>
+                <th:block th:if="${order.getStatus()==1}">
+                    <td >已支付</td>
+                    <td ><a role="button" th:href="@{'/order/repay?orderId='+${order.getOrderId()}}" >申请退款</a></td>
+                </th:block>
+                <th:block th:if="${order.getStatus()==2}">
+                    <td >已发货</td>
+                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])">收货</a>&ensp;<a role="button" >申请退款</a></td>
+                </th:block>
+                <th:block th:if="${order.getStatus()==3}">
+                    <td >已完成</td>
+                    <td ><a role="button" th:href="@{'/order/list?orderId='+${order.getOrderId()}}" >申请退换</a></td>
+                </th:block>
+                <th:block th:if="${order.getStatus()==4}">
+                    <td >已关闭</td>
+                    <td ><a role="button" th:href="@{'/order/delete?orderId='+${order.getOrderId()}}" >删除订单</a></td>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /table-responsive -->
+
+<!--    <table class="table invoice-total">-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td><strong>总价：</strong>-->
+<!--            </td>-->
+<!--            <td>&yen;1026.00</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><strong>折扣：</strong>-->
+<!--            </td>-->
+<!--            <td>&yen;-10</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><strong>总计</strong>-->
+<!--            </td>-->
+<!--            <td>&yen;1261.98</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+
+</div>
+
+</div>
+</body>
+</footer>
+</html>

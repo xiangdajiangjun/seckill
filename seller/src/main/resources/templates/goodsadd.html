@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品添加</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/alert.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <style>
+        .form-control{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="padding: 100px 100px 10px;" >
+    <form id="goodsform" action="/goods/add" class="bs-example bs-example-form" role="form" method="post" enctype="multipart/form-data">
+        <div class="input-group">
+            <span class="input-group-addon">N</span>
+            <input type="text" name="name" class="form-control" placeholder="商品名称" >
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">C</span>
+            <input type="text" name="code" class="form-control" placeholder="商品码">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">P</span>
+            <input type="text" name="price" class="form-control" placeholder="单价" >
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">D</span>
+            <input type="text" name="describe" class="form-control" placeholder="描述">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">T</span>
+            <input type="text" name="typeId" class="form-control" placeholder="类型" list="goodstype">
+        </div>
+        <datalist id="goodstype">
+            <th:block th:each="type:${goodstype}">
+                <option th:text="${type.getTag()}" th:value="${type.getId()}">
+            </th:block>
+        </datalist>
+
+        <h3 align="center"><span class="label label-danger" th:text="${msg}" ></span></h3>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success pull-right" id="register_btn" value="提交 "/>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    $(function(){
+        $("#goodsform").ajaxForm(function (data,status) {
+            if (status==="success"){
+                alert("操作成功");
+                location.reload();
+            }
+            else
+                alert("操作失败");
+        });
+    });
+
+</script>
+</html>
