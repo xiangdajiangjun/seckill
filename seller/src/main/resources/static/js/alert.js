@@ -29,3 +29,13 @@ function formsuba() {
     $("#goodsform")
 
 }
+function changeorderstatus(orderid) {
+    $.get("/order/status?orderId="+orderid,function (data,status) {
+        if (status==="success"){
+            alert("操作成功");
+            location.reload();
+        }
+        else
+            alert("操作失败");
+    });
+}

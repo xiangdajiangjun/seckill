@@ -3,7 +3,9 @@ package com.seckill.seller.service;
 import com.seckill.seller.dto.GoodsDto;
 import com.seckill.seller.entity.GoodType;
 import com.seckill.seller.entity.Goods;
+import com.seckill.seller.entity.Order;
 import com.seckill.seller.utils.PageUtil;
+import com.seckill.seller.vo.OrderVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @FeignClient(name= "purchase")
-public interface GoodsRemote {
+public interface PurchaseRemote {
     @RequestMapping(value = "/api/goods/all")
     List<Goods> getAllGoods(@RequestParam(value = "shopId") Integer shopId);
     @RequestMapping(value = "/api/goods/del")
@@ -31,6 +33,14 @@ public interface GoodsRemote {
     Boolean alterStock(@RequestBody Goods goodsDto);
     @RequestMapping("/api/goods/sellstatus")
     Boolean changeSellStatus(@RequestParam("goodsId") Integer goodsId);
+
+    @RequestMapping("/api/order/list")
+    List<OrderVo> getAllOrderList(@RequestParam("shopId") Integer shopId);
+
+    @RequestMapping("/api/order/status")
+    Boolean changeOrderStatus(@RequestParam("shopId") Integer shopId);
+
+
 
 
 }

@@ -77,16 +77,19 @@
             </a>
             <ul class="nav-left-container-small">
                 <li>
-                    <a class="J_menuItem" href="#"  onclick="skip('/test')">所有订单</a>
+                    <a class="J_menuItem" href="#"  onclick="skip('/order/list?type=list')">所有订单</a>
                 </li>
                 <li>
-                    <a class="J_menuItem" href="#" onclick="skip('/test')">待发货</a>
+                    <a class="J_menuItem" href="#" onclick="skip('/order/list?type=wait')">待发货</a>
                 </li>
                 <li>
-                    <a class="J_menuItem" href="#" onclick="skip('/test')">已发货</a>
+                    <a class="J_menuItem" href="#" onclick="skip('/order/list?type=already')">已发货</a>
                 </li>
                 <li>
-                    <a class="J_menuItem" href="#" onclick="skip('/test')">历史订单</a>
+                    <a class="J_menuItem" href="#" onclick="skip('/order/list?type=received')">已收货</a>
+                </li>
+                <li>
+                    <a class="J_menuItem" href="#" onclick="skip('/order/list?type=history')">历史订单</a>
                 </li>
             </ul>
         </li>

@@ -9,7 +9,7 @@ public interface GoodService {
     PageUtil getGoodsList(Integer currentPage,Integer type);
     PageUtil getNewGoods(Integer currentPage);
     PageUtil queryDoods(Integer currentPage,String queryStatement);
-    List getGoodsListForSeller(Integer shopId);
+    List<Goods> getGoodsListForSeller(Integer shopId);
     Boolean delGoods(Integer goodsId);
     Goods getGoodsInfo(Integer goodsId);
     Boolean alterGoods(Goods goodsDto);

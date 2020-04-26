@@ -1,11 +1,9 @@
 package com.seckill.seller.controller;
 
 import com.seckill.seller.dao.ShopDao;
-import com.seckill.seller.dto.GoodsDto;
 import com.seckill.seller.entity.Goods;
-import com.seckill.seller.entity.Shop;
 import com.seckill.seller.service.AccountService;
-import com.seckill.seller.service.GoodsRemote;
+import com.seckill.seller.service.PurchaseRemote;
 import com.seckill.seller.utils.ConstantAll;
 import com.seckill.seller.utils.PageUtil;
 import org.apache.shiro.SecurityUtils;
@@ -21,14 +19,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/goods")
 public class GoodsController {
     @Resource
-    private GoodsRemote goodsRemote;
+    private PurchaseRemote purchaseRemote;
     @Resource
     private AccountService accountService;
     @Resource
@@ -41,7 +38,7 @@ public class GoodsController {
         int userId = accountService.getUserByUserName(keeperName).getId();
         Integer shopId = shopDao.findByKeepperId(userId).getId();
         //取出店铺id所有商品然后分页包装
-        List<Goods> allGoods = goodsRemote.getAllGoods(shopId);
+        List<Goods> allGoods = purchaseRemote.getAllGoods(shopId);
         PageUtil<Goods> pageUtil = PageUtil.createPage(currentPage);
         pageUtil.doPage(allGoods);
         model.addAttribute("page",pageUtil);
@@ -50,7 +47,7 @@ public class GoodsController {
 
     @RequestMapping("/del")
     public void delGoods(@RequestParam(value = "goodsid")Integer goodsId, HttpServletResponse httpServletResponse){
-        Boolean isSuccess = goodsRemote.delGoods(goodsId);
+        Boolean isSuccess = purchaseRemote.delGoods(goodsId);
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
@@ -59,13 +56,13 @@ public class GoodsController {
 
     @GetMapping("/info")
     public String goodsInfo(Model model,@RequestParam(value = "goodsid")Integer goodsId){
-        model.addAttribute("goodstype",goodsRemote.getGoodsType());
-        model.addAttribute("goods",goodsRemote.getGoods(goodsId));
+        model.addAttribute("goodstype", purchaseRemote.getGoodsType());
+        model.addAttribute("goods", purchaseRemote.getGoods(goodsId));
         return "goodsinfo";
     }
     @RequestMapping("/alter")
     public void goodsAlter(Goods goodsDto,HttpServletResponse httpServletResponse){
-        Boolean isSuccess = goodsRemote.alterGoodsInfo(goodsDto);
+        Boolean isSuccess = purchaseRemote.alterGoodsInfo(goodsDto);
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
@@ -75,7 +72,7 @@ public class GoodsController {
     public void goodsImg(@RequestParam("id")Integer goodsId ,@RequestParam("img") MultipartFile img, HttpServletResponse httpServletResponse){
         if (img.isEmpty())
             return;
-        String uuid = goodsRemote.alterGoodsImgUuid(goodsId);
+        String uuid = purchaseRemote.alterGoodsImgUuid(goodsId);
         Boolean isSuccess=false;
         try {
             isSuccess=alertImage(uuid,img.getBytes());
@@ -104,7 +101,7 @@ public class GoodsController {
 
     @GetMapping("/add")
     public String goodsAdd(Model model){
-        model.addAttribute("goodstype",goodsRemote.getGoodsType());
+        model.addAttribute("goodstype", purchaseRemote.getGoodsType());
         return "goodsadd";
     }
 
@@ -115,7 +112,7 @@ public class GoodsController {
         int userId = accountService.getUserByUserName(keeperName).getId();
         Integer shopId = shopDao.findByKeepperId(userId).getId();
         goodsDto.setShopId(shopId);
-        Boolean isSuccess = goodsRemote.alterGoodsInfo(goodsDto);
+        Boolean isSuccess = purchaseRemote.alterGoodsInfo(goodsDto);
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
@@ -129,7 +126,7 @@ public class GoodsController {
         int userId = accountService.getUserByUserName(keeperName).getId();
         Integer shopId = shopDao.findByKeepperId(userId).getId();
         //取出店铺id所有商品然后分页包装
-        List<Goods> allGoods = goodsRemote.getAllGoods(shopId);
+        List<Goods> allGoods = purchaseRemote.getAllGoods(shopId);
         PageUtil<Goods> pageUtil = PageUtil.createPage(currentPage);
         pageUtil.doPage(allGoods);
         model.addAttribute("page",pageUtil);
@@ -137,7 +134,7 @@ public class GoodsController {
     }
     @PostMapping("/stock")
     public void alterStock(Goods goodsDto,HttpServletResponse httpServletResponse){
-        Boolean isSuccess = goodsRemote.alterStock(goodsDto);
+        Boolean isSuccess = purchaseRemote.alterStock(goodsDto);
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
@@ -151,7 +148,7 @@ public class GoodsController {
         int userId = accountService.getUserByUserName(keeperName).getId();
         Integer shopId = shopDao.findByKeepperId(userId).getId();
         //取出店铺id所有商品然后分页包装
-        List<Goods> allGoods = goodsRemote.getAllGoods(shopId);
+        List<Goods> allGoods = purchaseRemote.getAllGoods(shopId);
         if (status.equals("is"))
             allGoods=allGoods.stream().filter(Goods::getIsSell).collect(Collectors.toList());
         else
@@ -168,7 +165,7 @@ public class GoodsController {
     }
     @RequestMapping("/sellstatus")
     public void changeSellStatus(@RequestParam(value = "goodsid") Integer goodsId,HttpServletResponse httpServletResponse){
-        Boolean isSuccess = goodsRemote.changeSellStatus(goodsId);
+        Boolean isSuccess = purchaseRemote.changeSellStatus(goodsId);
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else

@@ -7,4 +7,5 @@ import java.util.List;
 public interface OrderService {
     List<OrderVo> getAllOrder(String username);
     Boolean operateOderStatus(Integer OrderId);
+    List<OrderVo> getOrderByShopId(Integer shopId);
 }
