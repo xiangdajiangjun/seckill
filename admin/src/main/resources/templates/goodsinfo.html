@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/alert.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <style>
+        .form-control{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="padding: 100px 100px 10px;" >
+    <div class="col-sm-8 col-md-8">
+        <a href="#" class="thumbnail">
+            <img th:src="${goods.getImage()}" class="img-responsive center-block"
+                 alt="商品暂无图片" id="imgPreview">
+
+        </a>
+        <form id="goodsimg" action="/goods/img" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="${goods.getId()}">
+            <div class="input-group caption">
+                <span class="input-group-addon">图片修改:</span>
+                <input type="file" name="img" id="loadimg">
+                <input type="submit" value="确定修改 "/>
+            </div>
+        </form>
+    </div>
+    <form id="goodsform" action="/goods/alter" class="bs-example bs-example-form" role="form" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:value="${goods.getId()}">
+        <div class="input-group">
+            <span class="input-group-addon">N</span>
+            <input type="text" name="name" class="form-control" placeholder="商品名称" th:value="${goods.getName()}">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">C</span>
+            <input type="text" name="code" class="form-control" placeholder="商品码" th:value="${goods.getCode()}">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">P</span>
+            <input type="text" name="price" class="form-control" placeholder="单价" th:value="${goods.getPrice()}">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">D</span>
+            <input type="text" name="describe" class="form-control" placeholder="描述" th:value="${goods.getDescribe()}">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">T</span>
+            <input type="text" name="typeId" class="form-control" placeholder="类型" list="goodstype" th:value="${goods.getTypeId()}">
+        </div>
+        <datalist id="goodstype">
+            <th:block th:each="type:${goodstype}">
+                <option th:text="${type.getTag()}" th:value="${type.getId()}">
+            </th:block>
+        </datalist>
+
+        <h3 align="center"><span class="label label-danger" th:text="${msg}" ></span></h3>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success pull-right" id="register_btn" value="保存 "/>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    var file = document.getElementById('loadimg')
+    var img = document.getElementById('imgPreview')
+    file.addEventListener('change',function(){
+        if(!checkImgType(file)){
+            return false;
+        }
+
+        var obj = file.files[0]
+        var reader = new FileReader();
+        reader.readAsDataURL(obj);
+        reader.onloadend = function() {
+            img.setAttribute('src',reader.result);
+        }
+    });
+    function checkImgType(ths){
+        if (ths.value == "") {
+            alert("请上传图片");
+            return false;
+        } else {
+            // if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(ths.value)) {
+                // alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+            if (!/\.(jpg|jpeg|JPG)$/.test(ths.value)) {
+                alert("图片类型必须是jpg");
+                ths.value = "";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    $(function(){
+        $("#goodsform").ajaxForm(function (data,status) {
+            if (status==="success"){
+                alert("操作成功");
+                location.reload();
+            }
+            else
+                alert("操作失败");
+        });
+        $("#goodsimg").ajaxForm(function (data,status) {
+            if (status==="success"){
+                alert("操作成功");
+                location.reload();
+            }
+            else
+                alert("操作失败");
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/alert.js"></script>
+</head>
+<body style=" background: url(/image/wel.jpg) no-repeat center center fixed; background-size: 100%;">
+<shiro:guest>
+    <h1>你好，请<a href="/login">登录</a>或<a href="/register">注册</a>
+    </h1>
+</shiro:guest>
+<shiro:user>
+    <h1>你好，尊敬的用户<shiro:principal/></h1><a href="#" onclick="logout()">登出</a>
+</shiro:user>
+</body>
+</html>

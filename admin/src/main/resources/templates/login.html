@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+<!--    <link href="favicon.ico" rel="shortcut icon" />-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
+    <link href="/css/signin.css" rel="stylesheet">
+</head>
+<body style=" background: url(/image/wel.jpg) no-repeat center center fixed; background-size: 100%;">
+<!--<div th:if=${msg}>-->
+<!--    <div class="alert alert-danger">-->
+<!--        <a href="#" class="close" data-dismiss="alert">-->
+<!--            &times;-->
+<!--        </a>-->
+<!--        <strong  th:text="${msg}"></strong>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="container">
+    <form class="form-signin" method="post">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="username" class="sr-only">账号</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="username" required autofocus>
+        <br>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password"  name="password" class="form-control" placeholder="password" required>
+        <br>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <h3 align="center"><span class="label label-danger" th:text="${msg}" ></span></h3>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    </form>
+
+</div> <!-- /container -->
+
+</body>
+</html>

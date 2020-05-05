@@ -25,8 +25,8 @@ public class Account {
     @Column(name = "salt")
     private String salt;
     @Basic
-    @Column(name = "state")
-    private Integer state;
+    @Column(name = "status")
+    private Boolean state;
     @Basic
     @Column(name = "type")
     private String type;

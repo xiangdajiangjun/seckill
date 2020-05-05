@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface AccountService {
     Account getAccount(String username);
+    Boolean changeStatus(String username);
+    List<Account> getAccountList();
     String registerAccount(RegisterDto registerDto);
     String encryptor(Account account);
     Map<Role, List<Permission>> getRoleAndPermission(Account account);

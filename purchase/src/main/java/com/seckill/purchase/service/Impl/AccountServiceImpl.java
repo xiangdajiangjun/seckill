@@ -15,6 +15,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.omg.CORBA.UnknownUserException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -41,6 +42,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Account> getAccountList() {
+        List<Account> accountList = accountDao.findAll();
+        return accountList;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean changeStatus(String username) {
+        Account account = accountDao.findAccountByUsername(username);
+        account.setState(!account.getState());
+        accountDao.save(account);
+        return true;
+    }
+
+    @Override
     public String registerAccount(RegisterDto registerDto) {
         //检测用户名是否已存在
         if(accountDao.findAccountByUsername(registerDto.getUsername())!=null)
@@ -57,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
         account.setUsername(registerDto.getUsername());
         account.setType("buyer");
         account.setSalt(salt);
-        account.setState(0);
+        account.setState(false);
         account.setPassword(newPassword);
         accountDao.save(account);
 

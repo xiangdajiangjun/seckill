@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理员系统</title>
+    <script src="https://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/jquery-kq-nav-left.css">
+    <script src="/js/index.js"></script>
+    <style>
+        #mainIframe{
+            padding-left: 220px;
+            width: 1126px;
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <ul class="nav-left-container">
+        <li>
+            <!-- li的class为active表示点击选中 -->
+            <a href="/">
+                <!-- aria-hidden字符串。可选值为true和false,true表示元素隐藏(不可见)，false表示元素可见。 -->
+                <span class="glyphicon glyphicon-home f12" aria-hidden="true"></span>
+                <span>主页</span>
+                <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="glyphicon glyphicon-calendar f12" aria-hidden="true"></span>
+                <span>账户管理</span>
+                <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
+            </a>
+
+            <ul class="nav-left-container-small">
+                <li>
+                    <a class="J_menuItem" href="#" onclick="skip('/account/list')">账户一览</a>
+                </li>
+                <li>
+                    <a class="J_menuItem" href="#" onclick="skip('/account/permission')">账户授权</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="glyphicon glyphicon-edit f12" aria-hidden="true"></span>
+                <span>分类管理</span>
+                <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
+            </a>
+            <ul class="nav-left-container-small">
+                <li>
+                    <a class="J_menuItem" href="#"  onclick="skip('/type/list')">所有分类</a>
+                </li>
+                <li>
+                    <a class="J_menuItem" href="#"  onclick="skip('/type/add')">新增分类</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="glyphicon glyphicon-duplicate f12" aria-hidden="true"></span>
+                <span>活动管理</span>
+                <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
+            </a>
+            <ul class="nav-left-container-small">
+                <li>
+                    <a class="J_menuItem" href="#"  onclick="skip('/activities/list?type=list')">发布活动</a>
+                </li>
+                <li>
+                    <a class="J_menuItem" href="#" onclick="skip('/activities/list?type=wait')">取消活动</a>
+                </li>
+                <li>
+                    <a class="J_menuItem" href="#" onclick="skip('/activities/list?type=already')">活动商户</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+                <span>页面管理</span>
+                <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
+            </a>
+            <ul class="nav-left-container-small">
+                <li>
+                    <a class="J_menuItem" href="#" onclick="skip('/picture')">轮播图管理</a>
+                </li>
+<!--                <li>-->
+<!--                    <a class="J_menuItem" href="#" onclick="skip('/test')">注销账号</a>-->
+<!--                </li>-->
+            </ul>
+        </li>
+    </ul>
+    <div class="content-wrapper">
+        <iframe id="mainIframe" name="mainIframe" src="/welcome">
+        </iframe>
+    </div>
+</div>
+<script>
+    $('.nav-left-container').on('click', 'li', function () {
+        $(this).find('.glyphicon-menu-right').removeClass('glyphicon-menu-right').addClass('glyphicon-menu-down');
+        $(this).addClass('active').children('.nav-left-container-small').slideDown()
+
+        $(this).siblings().removeClass('active').children('.nav-left-container-small').slideUp()
+        $(this).siblings().find('.glyphicon-menu-down').removeClass('glyphicon-menu-down').addClass('glyphicon-menu-right ');
+    })
+</script>
+</body>
+
+</html>

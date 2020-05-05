@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
             account.setUsername(registerDto.getUsername());
             account.setType("2");
             account.setSalt(salt);
-            account.setState(0);
+            account.setState(false);
             account.setPassword(newPassword);
             accountDao.save(account);
 
