@@ -28,6 +28,11 @@ public class AccountServiceImpl implements AccountService {
     private PurchaseRemote purchaseRemote;
 
     @Override
+    public String registerAccount(RegisterDto registerDto) {
+        return purchaseRemote.registerAccountForAdmin(registerDto);
+    }
+
+    @Override
     public Boolean changeStatus(String username) {
         Boolean isSuccess = purchaseRemote.changeAccountStatus(username);
         return isSuccess;
@@ -49,10 +54,18 @@ public class AccountServiceImpl implements AccountService {
             String message = fei.getMessage();
             throw new UnknownAccountException(message);
         }
-        if (account==null||(!account.getType().equals("3")))
+        if (account==null||(!account.getType().equals("3")&&(!account.getType().equals("4"))))
             throw new UnknownAccountException();
         return account;
     }
 
+    @Override
+    public List<Role> getRoleList() {
+        return purchaseRemote.getRoleList();
+    }
 
+    @Override
+    public Boolean roleDistribute(String username, Integer roleId) {
+        return purchaseRemote.roleDistribute(username,roleId);
+    }
 }

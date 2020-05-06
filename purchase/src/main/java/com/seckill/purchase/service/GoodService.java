@@ -6,6 +6,7 @@ import com.seckill.purchase.utils.PageUtil;
 import java.util.List;
 
 public interface GoodService {
+    Boolean delType(Integer typeId);
     PageUtil getGoodsList(Integer currentPage,Integer type);
     PageUtil getNewGoods(Integer currentPage);
     PageUtil queryDoods(Integer currentPage,String queryStatement);
@@ -16,4 +17,8 @@ public interface GoodService {
     String getGoodsImgUUID(Integer goodsId);
     Boolean alterStock(Goods goodsDto);
     Boolean alterSell(Integer goodsId);
+
+    Boolean changeGoodsTypeStatus(Integer typeId);
+
+    Boolean addGoodsType(String tag);
 }

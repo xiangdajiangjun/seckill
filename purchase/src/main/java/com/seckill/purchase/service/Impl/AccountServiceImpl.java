@@ -57,6 +57,29 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public String registerAccountForAdmin(RegisterDto registerDto) {
+        //检测用户名是否已存在
+        if(accountDao.findAccountByUsername(registerDto.getUsername())!=null)
+            return "用户名已存在";
+        if(userDao.findUserByEmail(registerDto.getEmail())!=null)
+            return "邮箱已被注册。";
+
+        //新增账户
+        Account account =new Account();
+        //设置盐值
+        String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+        salt=salt+registerDto.getEmail();
+        String newPassword =new SimpleHash("MD5",registerDto.getPassword(),ByteSource.Util.bytes(salt),3).toHex();
+        account.setUsername(registerDto.getUsername());
+        account.setType("4");
+        account.setSalt(salt);
+        account.setState(false);
+        account.setPassword(newPassword);
+        accountDao.save(account);
+        return "success";
+    }
+
+    @Override
     public String registerAccount(RegisterDto registerDto) {
         //检测用户名是否已存在
         if(accountDao.findAccountByUsername(registerDto.getUsername())!=null)

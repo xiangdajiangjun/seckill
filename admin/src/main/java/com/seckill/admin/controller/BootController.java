@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class BootController {
+    @Resource
+    private AccountService accountService;
+
     @RequestMapping("/welcome")
     public String welcome(){
         return "welcome";
@@ -47,16 +50,16 @@ public class BootController {
         return "register";
     }
 
-//    @PostMapping("/register")
-//    public String register(RegisterDto registerDto, Model model){
-//        String msg = accountService.registerAccount(registerDto);
-//        if (msg!=null){
-//            if(msg.equals("success"))
-//                return "register-success";
-//            else
-//                model.addAttribute("msg",msg);
-//        }
-//        return "register";
-//    }
+    @PostMapping("/register")
+    public String register(RegisterDto registerDto, Model model){
+        String msg = accountService.registerAccount(registerDto);
+        if (msg!=null){
+            if(msg.equals("success"))
+                return "register-success";
+            else
+                model.addAttribute("msg",msg);
+        }
+        return "register";
+    }
 
 }

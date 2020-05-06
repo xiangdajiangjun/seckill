@@ -16,40 +16,27 @@
 <body>
 <div class="container">
     <table class="table table-condensed">
-        <caption>账户一览</caption>
+        <caption>商品类型</caption>
         <thead>
         <tr>
-            <th>用户名</th>
-            <th>类型</th>
+            <th>id</th>
+            <th>分类名称</th>
             <th>状态</th>
             <th>#</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="account:${page.list}">
-            <td th:text="${account.getUsername()}">用户名</td>
-<!--            类型-->
-            <th:block th:if="${account.getType()}==1">
-                <td >买家</td>
-            </th:block>
-            <th:block th:if="${account.getType()}==2">
-                <td>卖家</td>
-            </th:block>
-            <th:block th:if="${account.getType()}==3">
-                <td>超级管理员</td>
-            </th:block>
-            <th:block th:if="${account.getType()}==4">
-                <td>管理员</td>
-            </th:block>
+        <tr th:each="types:${page.list}">
+            <td th:text="${types.getId()}">id</td>
+            <td th:text="${types.getTag()}">分类名称</td>
 <!--            状态-->
-            <th:block th:if="${account.getState()}">
-                <td>正常</td>
-                <td><a role="button" th:onclick="changeaccountstatus([[${account.getUsername()}]])">冻结</a></td>
+            <th:block th:if="${types.getIsAvailable()}">
+                <td><a role="button" th:onclick="change_type_status([[${types.getId()}]])">可用</a></td>
             </th:block>
-            <th:block th:unless="${account.getState()}">
-                <td>冻结</td>
-                <td><a role="button" th:onclick="changeaccountstatus([[${account.getUsername()}]])">激活</a></td>
+            <th:block th:unless="${types.getIsAvailable()}">
+                <td><a role="button" th:onclick="change_type_status([[${types.getId()}]])">不可用</a></td>
             </th:block>
+            <td><a role="button" th:onclick="deltype([[${types.getId()}]])">删除</a></td>
         </tr>
         </tbody>
     </table>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增分类</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.form.js"></script>
+</head>
+<body>
+<form id="goodsform" role="form" method="get" action="/type/insert">
+    <input type="text" name="tag" placeholder="请输入新分类名称">
+    <input type="submit">
+</form>
+</body>
+<script>
+    $(function(){
+        $("#goodsform").ajaxForm(function (data,status) {
+            if (status==="success"){
+                alert("操作成功");
+                location.reload();
+            }
+            else
+                alert("操作失败");
+        });
+    });
+
+</script>
+</html>

@@ -1,6 +1,8 @@
 package com.seckill.purchase.service.Impl;
 
 import com.seckill.purchase.dao.GoodDao;
+import com.seckill.purchase.dao.GoodTypeDao;
+import com.seckill.purchase.entity.GoodType;
 import com.seckill.purchase.entity.Goods;
 import com.seckill.purchase.service.GoodService;
 import com.seckill.purchase.service.ImageService;
@@ -28,6 +30,45 @@ public class GoodServiceImpl implements GoodService {
     private ImageService imageService;
     @Resource
     private GoodDao goodDao;
+    @Resource
+    private GoodTypeDao goodTypeDao;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean addGoodsType(String tag) {
+        boolean isExist = goodTypeDao.findAll().stream().map(GoodType::getTag).collect(Collectors.toSet()).contains(tag);
+        if (isExist)
+            return false;
+        else {
+            GoodType goodType=new GoodType();
+            goodType.setTag(tag);
+            goodType.setIsAvailable(false);
+            goodTypeDao.save(goodType);
+            return true;
+        }
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean changeGoodsTypeStatus(Integer typeId) {
+        GoodType type = goodTypeDao.findById(typeId);
+        type.setIsAvailable(!(type.getIsAvailable()));
+        goodTypeDao.save(type);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Boolean delType(Integer typeId) {
+        Set<Integer> type_isUsed = goodDao.findAll().stream().map(Goods::getTypeId).collect(Collectors.toSet());
+        //类型标签已使用则删除失败，否则可删除
+        if (type_isUsed.contains(typeId))
+            return false;
+        else
+            goodTypeDao.deleteById(typeId);
+        return true;
+    }
 
     @Override
     public PageUtil getGoodsList(Integer currentPage,Integer type) {

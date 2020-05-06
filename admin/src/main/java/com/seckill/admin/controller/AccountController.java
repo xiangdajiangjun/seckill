@@ -1,6 +1,7 @@
 package com.seckill.admin.controller;
 
 import com.seckill.admin.entity.Account;
+import com.seckill.admin.entity.Role;
 import com.seckill.admin.service.AccountService;
 import com.seckill.admin.utils.PageUtil;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,32 @@ public class AccountController {
     @Resource
     private AccountService accountService;
 
-    @RequestMapping("/list")
-    public String getAccountList(Model model,@RequestParam(value = "currentPage",required = false,defaultValue = "1")Integer currentPage) throws Exception {
+
+    @RequestMapping("/role/distribute")
+    public void roleDistribute(@RequestParam("username") String username,@RequestParam("roleId") Integer roleId,HttpServletResponse httpServletResponse){
+        Boolean isSuccess = accountService.roleDistribute(username,roleId);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(500);
+    }
+    @RequestMapping("/rolelist")
+    public String accountRole(Model model,@RequestParam(value = "page",required = false,defaultValue = "1")Integer currentPage) throws Exception {
+        //账户列表
         List<Account> accountList = accountService.getAccountList();
-        PageUtil<Account> pageUtil=PageUtil.createPage(1);
+        PageUtil<Account> pageUtil=PageUtil.createPage(currentPage);
+        pageUtil.doPage(accountList);
+        model.addAttribute("page",pageUtil);
+        //角色信息
+        List<Role> roleList = accountService.getRoleList();
+        model.addAttribute("roleList",roleList);
+        return "account_role";
+    }
+
+    @RequestMapping("/list")
+    public String getAccountList(Model model,@RequestParam(value = "page",required = false,defaultValue = "1")Integer currentPage) throws Exception {
+        List<Account> accountList = accountService.getAccountList();
+        PageUtil<Account> pageUtil=PageUtil.createPage(currentPage);
         pageUtil.doPage(accountList);
         model.addAttribute("page",pageUtil);
         return "accountlist";

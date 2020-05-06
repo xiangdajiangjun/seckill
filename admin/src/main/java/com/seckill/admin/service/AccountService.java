@@ -11,6 +11,12 @@ public interface AccountService {
     Account getAccount(String username);
     List<Account> getAccountList();
     Boolean changeStatus(String username);
+
+    String registerAccount(RegisterDto registerDto);
+
+    List<Role> getRoleList();
+
+    Boolean roleDistribute(String username, Integer roleId);
 //    String registerAccount(RegisterDto registerDto);
 //    String encryptor(Account account);
 //    Map<Role, List<Permission>> getRoleAndPermission(Account account);

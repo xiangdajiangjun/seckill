@@ -1,9 +1,11 @@
 package com.seckill.purchase.api;
 
+import com.seckill.purchase.dto.RegisterDto;
 import com.seckill.purchase.entity.Account;
 import com.seckill.purchase.entity.GoodType;
 import com.seckill.purchase.service.AccountService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +18,12 @@ import java.util.List;
 public class AccountApi {
     @Resource
     private AccountService accountService;
+
+    @RequestMapping("/register")
+    @ResponseBody
+    String registerAccountForAdmin(@RequestBody RegisterDto registerDto){
+        return accountService.registerAccountForAdmin(registerDto);
+    }
 
     @RequestMapping("/status")
     @ResponseBody

@@ -62,6 +62,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/type/**", "perms[type_admin]");
         filterChainDefinitionMap.put("/role/**", "perms[role_admin]");
         filterChainDefinitionMap.put("/permission/**", "perms[permission_admin]");
+        filterChainDefinitionMap.put("/activities/**", "perms[activities_admin]");
+        filterChainDefinitionMap.put("/page/**", "perms[page_admin]");
 
 
         filterChainDefinitionMap.put("/**", "authc");

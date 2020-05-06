@@ -16,13 +16,14 @@
 <body>
 <div class="container">
     <table class="table table-condensed">
-        <caption>账户一览</caption>
+        <caption>账户角色表</caption>
         <thead>
         <tr>
             <th>用户名</th>
             <th>类型</th>
-            <th>状态</th>
-            <th>#</th>
+            <th:block th:each="role:${roleList}">
+                <th th:text="${role.getName()}"></th>
+            </th:block>
         </tr>
         </thead>
         <tbody>
@@ -41,15 +42,15 @@
             <th:block th:if="${account.getType()}==4">
                 <td>管理员</td>
             </th:block>
-<!--            状态-->
-            <th:block th:if="${account.getState()}">
-                <td>正常</td>
-                <td><a role="button" th:onclick="changeaccountstatus([[${account.getUsername()}]])">冻结</a></td>
+            <!--角色-->
+            <th:block th:each="role:${roleList}">
+                <td>
+                    <a role="button" th:if="${account.getRoleList().contains(role)}" th:onclick="role_distribution([[${account.getUsername()}]],[[${role.getId()}]])">拥有</a>
+                    <a role="button" th:unless="${account.getRoleList().contains(role)}" th:onclick="role_distribution([[${account.getUsername()}]],[[${role.getId()}]])">未拥有</a>
+                </td>
             </th:block>
-            <th:block th:unless="${account.getState()}">
-                <td>冻结</td>
-                <td><a role="button" th:onclick="changeaccountstatus([[${account.getUsername()}]])">激活</a></td>
-            </th:block>
+
+<!--            <td><a role="button" th:onclick="changeaccountstatus([[${account.getUsername()}]])">提交</a></td>-->
         </tr>
         </tbody>
     </table>

@@ -17,4 +17,6 @@ public interface AccountService {
 
     List<GoodType> getGoodType();
     User getUserByUserName(String userName);
+
+    String registerAccountForAdmin(RegisterDto registerDto);
 }
