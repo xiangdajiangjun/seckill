@@ -169,12 +169,18 @@ public class GoodServiceImpl implements GoodService {
         return goods;
     }
 
+    /**
+     * 新增或更改商品信息
+     * @param goodsDto
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean alterGoods(Goods goodsDto) {
+        //若id为0视为不存在商品，新增；否则已存在，修改
         if(goodsDto.getId()==0){
             goodsDto.setIsSell(false);
-            goodsDto.setStock("0");
+            goodsDto.setStock(0);
             goodsDto.setImage(UUID.randomUUID().toString().replace("-", "").toLowerCase());
             goodDao.save(goodsDto);
         }else{

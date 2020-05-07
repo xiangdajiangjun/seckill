@@ -42,7 +42,7 @@
 
                 <th:block th:if="${order.getStatus()==0}">
                     <td >未支付</td>
-                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])" >------</a></td>
+                    <td ><a role="button">------</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==1}">
                     <td >已支付</td>
@@ -60,32 +60,18 @@
                     <td >已关闭</td>
                     <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])" >删除</a></td>
                 </th:block>
+                <th:block th:if="${order.getStatus()<0}">
+                    <td >退货申请</td>
+                    <td ><a role="button" th:onclick="agree([[${order.getOrderId()}]])" >同意</a>  <a role="button" th:onclick="refuse([[${order.getOrderId()}]])" >拒绝</a></td>
+                </th:block>
+                <th:block th:if="${order.getStatus()==200}">
+                    <td >退货达成</td>
+                    <td ><a role="button"  th:onclick="changeorderstatus([[${order.getOrderId()}]])">删除</a></td>
+                </th:block>
             </tr>
             </tbody>
         </table>
     </div>
-    <!-- /table-responsive -->
-
-<!--    <table class="table invoice-total">-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--            <td><strong>总价：</strong>-->
-<!--            </td>-->
-<!--            <td>&yen;1026.00</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td><strong>折扣：</strong>-->
-<!--            </td>-->
-<!--            <td>&yen;-10</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td><strong>总计</strong>-->
-<!--            </td>-->
-<!--            <td>&yen;1261.98</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-
 </div>
 
 </div>

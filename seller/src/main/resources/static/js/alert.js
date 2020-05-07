@@ -25,12 +25,28 @@ function logout() {
         location.href='/welcome';
     });
 }
-function formsuba() {
-    $("#goodsform")
-
-}
 function changeorderstatus(orderid) {
     $.get("/order/status?orderId="+orderid,function (data,status) {
+        if (status==="success"){
+            alert("操作成功");
+            location.reload();
+        }
+        else
+            alert("操作失败");
+    });
+}
+function agree(orderId) {
+    $.get("/order/agree?orderId="+orderId,function (data,status) {
+        if (status==="success"){
+            alert("操作成功");
+            location.reload();
+        }
+        else
+            alert("操作失败");
+    });
+}
+function refuse(orderId) {
+    $.get("/order/refuse?orderId="+orderId,function (data,status) {
         if (status==="success"){
             alert("操作成功");
             location.reload();

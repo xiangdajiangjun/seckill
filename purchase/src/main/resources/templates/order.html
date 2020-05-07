@@ -43,52 +43,37 @@
 
                 <th:block th:if="${order.getStatus()==0}">
                     <td >未支付</td>
-                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])" >去支付</a>&ensp;<a th:href="@{'/order/cancel?orderId='+${order.getOrderId()}}" role="button" >取消订单</a></td>
+                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])" >去支付</a>&ensp;<a th:onclick="return_goods([[${order.getOrderId()}]])" role="button" >取消订单</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==1}">
                     <td >已支付</td>
-                    <td ><a role="button" th:href="@{'/order/repay?orderId='+${order.getOrderId()}}" >申请退款</a></td>
+                    <td ><a role="button" th:onclick="return_goods([[${order.getOrderId()}]])" >申请退款</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==2}">
                     <td >已发货</td>
-                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])">收货</a>&ensp;<a role="button" >申请退款</a></td>
+                    <td ><a role="button" th:onclick="changeorderstatus([[${order.getOrderId()}]])">收货</a>&ensp;<a role="button" th:onclick="return_goods([[${order.getOrderId()}]])" >申请退款</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==3}">
                     <td >已完成</td>
-                    <td ><a role="button" th:href="@{'/order/list?orderId='+${order.getOrderId()}}" >申请退换</a></td>
+                    <td ><a role="button" th:onclick="return_goods([[${order.getOrderId()}]])" >申请退货</a></td>
                 </th:block>
                 <th:block th:if="${order.getStatus()==4}">
                     <td >已关闭</td>
                     <td ><a role="button" th:href="@{'/order/delete?orderId='+${order.getOrderId()}}" >删除订单</a></td>
                 </th:block>
+                <th:block th:if="${order.getStatus()<0}">
+                    <td >待商家同意申请</td>
+                    <td ><a role="button" th:onclick="return_goods([[${order.getOrderId()}]])" >取消申请</a></td>
+                </th:block>
+                <th:block th:if="${order.getStatus()==200}">
+                    <td >退货达成</td>
+                    <td ><a role="button">-----</a></td>
+                </th:block>
             </tr>
             </tbody>
         </table>
     </div>
-    <!-- /table-responsive -->
-
-<!--    <table class="table invoice-total">-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--            <td><strong>总价：</strong>-->
-<!--            </td>-->
-<!--            <td>&yen;1026.00</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td><strong>折扣：</strong>-->
-<!--            </td>-->
-<!--            <td>&yen;-10</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td><strong>总计</strong>-->
-<!--            </td>-->
-<!--            <td>&yen;1261.98</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-
-    <div class="well m-t"><strong>注意：</strong> 未付款订单请在30日内完成付款，否则订单会自动取消。
-    </div>
+<!--    <div class="well m-t"><strong>注意：</strong> 未付款订单请在30分钟内完成付款，否则订单会自动取消。</div>-->
 </div>
 
 </div>

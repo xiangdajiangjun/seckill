@@ -23,7 +23,7 @@ public class Goods {
     private Integer shopId;//店铺id
     @Field("price")
     private Double price;//单价
-    private String stock;//库存
+    private Integer stock;//库存
     @Field("goods_describe")
     @Column(name = "goods_describe")
     private String describe;//描述

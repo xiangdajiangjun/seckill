@@ -33,7 +33,15 @@ public class OrderController {
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
-            httpServletResponse.setStatus(500);
+            httpServletResponse.setStatus(204);
 
+    }
+    @RequestMapping("/return")
+    public void returnGoods(@RequestParam("orderId")Integer orderId, HttpServletResponse httpServletResponse){
+        Boolean isSuccess = orderService.returnGoods(orderId);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(204);
     }
 }

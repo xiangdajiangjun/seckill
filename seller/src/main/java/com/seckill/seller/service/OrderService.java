@@ -10,4 +10,8 @@ public interface OrderService {
 
     List<OrderVo> getOrderListByKeeperName(String keeperName);
     Boolean changeStatus(String keeperName,Integer orderId);
+
+    Boolean agreeApply(String keeperName, Integer orderId);
+
+    Boolean refuseApply(String keeperName, Integer orderId);
 }

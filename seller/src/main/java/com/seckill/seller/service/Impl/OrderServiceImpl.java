@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
@@ -35,6 +36,26 @@ public class OrderServiceImpl implements OrderService {
             if (orderVo.getOrderId().equals(orderId)){
                 return purchaseRemote.changeOrderStatus(orderId);
             }
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean agreeApply(String keeperName, Integer orderId) {
+        List<OrderVo> allOrderList = getOrderListByKeeperName(keeperName);
+        boolean contains = allOrderList.stream().map(OrderVo::getOrderId).collect(Collectors.toList()).contains(orderId);
+        if (contains){
+            return purchaseRemote.refuseApply(orderId);
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean refuseApply(String keeperName, Integer orderId) {
+        List<OrderVo> allOrderList = getOrderListByKeeperName(keeperName);
+        boolean contains = allOrderList.stream().map(OrderVo::getOrderId).collect(Collectors.toList()).contains(orderId);
+        if (contains){
+            return purchaseRemote.agreeApply(orderId);
         }
         return false;
     }

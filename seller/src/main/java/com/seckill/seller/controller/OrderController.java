@@ -50,8 +50,27 @@ public class OrderController {
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
-            httpServletResponse.setStatus(500);
+            httpServletResponse.setStatus(204);
     }
 
+    @RequestMapping("/agree")
+    public void agreeApply(@RequestParam("orderId") Integer orderId, HttpServletResponse httpServletResponse){
+        String keeperName = (String) SecurityUtils.getSubject().getPrincipal();
+        Boolean isSuccess = orderService.agreeApply(keeperName,orderId);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(204);
+    }
+
+    @RequestMapping("/refuse")
+    public void refuseApply(@RequestParam("orderId") Integer orderId, HttpServletResponse httpServletResponse){
+        String keeperName = (String) SecurityUtils.getSubject().getPrincipal();
+        Boolean isSuccess = orderService.refuseApply(keeperName,orderId);
+        if (isSuccess)
+            httpServletResponse.setStatus(200);
+        else
+            httpServletResponse.setStatus(204);
+    }
 
 }

@@ -31,21 +31,41 @@ public class CartServiceImpl implements CartService {
     private GoodDao goodDao;
     @Resource
     private CartDao cartDao;
+
+    /**
+     * 加入购物车
+     * @param userName 用户名
+     * @param goodId 商品id
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean addGood(String userName, Integer goodId) {
+        //检查是否存在商品，或者商品是否售卖，或者商品库存是否不足
         Goods goods = goodDao.findById(goodId);
         if(goods==null)
             return false;
         else if(!goods.getIsSell())
             return false;
+        else if (goods.getStock()<=0)
+            return false;
+        //将该商品加入购物车：若不存在该用户的购物车则创建；在购物车商品列表末尾添加该商品的id，商品库存减一。
         Cart cart = cartDao.findByUsername(userName);
         if (cart==null)
             cart=Cart.builder().username(userName).goodList("").build();
         cart.setGoodList(cart.getGoodList()+" "+goodId);
         cartDao.save(cart);
+        //商品库存变化
+        goods.setStock(goods.getStock()-1);
+        goodDao.save(goods);
         return true;
     }
 
+    /**
+     * 通过账户名得到所有的购物车内项目
+     * @param userName
+     * @return
+     */
     @Override
     public CartVo seeCart(String userName) {
         //查询本用户购物车
@@ -75,7 +95,14 @@ public class CartServiceImpl implements CartService {
         return CartVo.builder().cartListVoList(cartItemList).firstPrice(sum).discount(0).priceTotal(sum).build();
     }
 
+    /**
+     * 摘出购物车
+     * @param userName
+     * @param goodId
+     * @return
+     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean deleteGoods(String userName,Integer goodId) {
         try{
             //查询本用户购物车
@@ -85,9 +112,21 @@ public class CartServiceImpl implements CartService {
         }catch(Exception e){
             return false;
         }
+        //库存加一
+        Goods goods = goodDao.findById(goodId);
+        if (goods!=null){
+            //若商品已经被删除，不需要操作
+            goods.setStock(goods.getStock()+1);
+            goodDao.save(goods);
+        }
         return true;
     }
 
+    /**
+     * 支付，先检查库存，下单直接支付成功，形成订单，最后清空购物车
+     * @param userName
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean payForCart(String userName) {

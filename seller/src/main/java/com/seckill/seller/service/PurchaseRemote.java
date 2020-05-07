@@ -40,7 +40,9 @@ public interface PurchaseRemote {
     @RequestMapping("/api/order/status")
     Boolean changeOrderStatus(@RequestParam("shopId") Integer shopId);
 
+    @RequestMapping("/api/order/agree")
+    Boolean agreeApply(@RequestParam("orderId") Integer orderId);
 
-
-
+    @RequestMapping("/api/order/refuse")
+    Boolean refuseApply(@RequestParam("orderId") Integer orderId);
 }

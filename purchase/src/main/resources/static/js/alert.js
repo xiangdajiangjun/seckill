@@ -35,3 +35,14 @@ function changeorderstatus(orderid) {
             alert("操作失败");
     });
 }
+
+function return_goods(orderid) {
+    $.get("/order/return?orderId="+orderid,function (data,status) {
+        if (status==="success"){
+            alert("操作成功");
+            location.href='/order/list';
+        }
+        else
+            alert("操作失败");
+    });
+}

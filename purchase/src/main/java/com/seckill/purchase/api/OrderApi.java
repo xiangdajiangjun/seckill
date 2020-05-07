@@ -24,9 +24,22 @@ public class OrderApi {
         return orderList;
     }
 
-    @RequestMapping("status")
+    @RequestMapping("/status")
     @ResponseBody
     Boolean changeOrderStatus(@RequestParam("shopId") Integer shopId){
         return orderService.operateOderStatus(shopId);
     }
+
+    @RequestMapping("/agree")
+    @ResponseBody
+    Boolean agreeApply(@RequestParam("orderId") Integer orderId){
+        return orderService.agreeApply(orderId);
+    }
+
+    @RequestMapping("/refuse")
+    @ResponseBody
+    Boolean refuseApply(@RequestParam("orderId") Integer orderId){
+        return orderService.refuseApply(orderId);
+    }
+
 }

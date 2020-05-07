@@ -21,6 +21,11 @@ public class CartController {
     @Resource
     private CartService cartService;
 
+    /**
+     * 加入购物车
+     * @param goodId
+     * @param httpServletResponse
+     */
     @RequestMapping("/add")
     public void addGood(@RequestParam("goodid") Integer goodId, HttpServletResponse httpServletResponse){
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
@@ -30,7 +35,7 @@ public class CartController {
             if (isSuccess)
                 httpServletResponse.setStatus(200);
             else
-                httpServletResponse.setStatus(500);
+                httpServletResponse.setStatus(204);
         }
 
     }
@@ -50,16 +55,22 @@ public class CartController {
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
-            httpServletResponse.setStatus(500);
+            httpServletResponse.setStatus(204);
     }
 
+    /**
+     * 下单后支付接口
+     * @param httpServletResponse
+     */
     @RequestMapping("/pay")
     public void payForCart(HttpServletResponse httpServletResponse){
+        //从shiro获取当前用户
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        //执行购物车下单
         Boolean isSuccess = cartService.payForCart(userName);
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
-            httpServletResponse.setStatus(500);
+            httpServletResponse.setStatus(204);
     }
 }
