@@ -5,12 +5,12 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>api</module>
     <module>purchase</module>
     <module>seller</module>
     <module>admin</module>
     <module>eureka-server</module>
     <module>gateway</module>
+      <module>activities</module>
   </modules>
 
   <groupId>com.xiang</groupId>

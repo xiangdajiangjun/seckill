@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>活动添加</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/alert.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <style>
+        .form-control{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="padding: 100px 100px 10px;" >
+    <form id="goodsform" action="/activities/add" class="bs-example bs-example-form" role="form" method="post" enctype="multipart/form-data">
+        <div class="input-group">
+            <span class="input-group-addon">S</span>
+            <input type="datetime-local" name="startDatetime" class="form-control" placeholder="开始时间" >
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">E</span>
+            <input type="datetime-local" name="endDatetime" class="form-control" placeholder="结束时间">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">S</span>
+            <input type="text" name="shopLimit" class="form-control" placeholder="可参与商家数量" >
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">G</span>
+            <input type="text" name="goodsLimit" class="form-control" placeholder="一个商家可上架商品数量">
+        </div>
+        <br>
+
+        <h3 align="center"><span class="label label-danger" th:text="${msg}" ></span></h3>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success pull-right" id="register_btn" value="提交 "/>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    $(function(){
+        $("#goodsform").ajaxForm(function (data,status) {
+            if (status==="success"){
+                alert("操作成功");
+                location.reload();
+            }
+            else
+                alert("操作失败");
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品上架</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/alert.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <style>
+        .form-control{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="padding: 100px 100px 10px;" >
+    <form id="goodsform" class="bs-example bs-example-form" role="form" method="post" enctype="multipart/form-data">
+        <div class="input-group">
+            <span class="input-group-addon">T</span>
+            <input type="text" name="goodsId" class="form-control" placeholder="商品" list="goodslist">
+        </div>
+        <datalist id="goodslist">
+            <th:block th:each="goods:${allGoods}">
+                <option th:text="${goods.getName()}+'原价：'+${goods.getPrice()}" th:value="${goods.getId()}">
+            </th:block>
+        </datalist>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">P</span>
+            <input type="text" name="presentPrice" class="form-control" placeholder="秒杀价" >
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">P</span>
+            <input type="text" name="allLimit" class="form-control" placeholder="总限购" >
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">D</span>
+            <input type="text" name="singleLimit" class="form-control" placeholder="单人限购">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">T</span>
+            <input type="text" name="activitiesId" class="form-control" placeholder="选择活动" list="activitiesIdList">
+        </div>
+        <datalist id="activitiesIdList">
+            <th:block th:each="activitiesId:${activitiesList}">
+                <option th:text="${activitiesId}" th:value="${activitiesId}">
+            </th:block>
+        </datalist>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success pull-right" id="register_btn" value="提交 "/>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    $(function(){
+        $("#goodsform").ajaxForm(function (data,status) {
+            alert(data);
+        });
+    });
+
+</script>
+</html>

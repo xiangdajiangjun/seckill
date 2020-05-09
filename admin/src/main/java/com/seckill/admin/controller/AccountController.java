@@ -58,6 +58,6 @@ public class AccountController {
         if (isSuccess)
             httpServletResponse.setStatus(200);
         else
-            httpServletResponse.setStatus(500);
+            httpServletResponse.setStatus(204);
     }
 }

@@ -27,11 +27,6 @@ public class BootController {
         return "index";
     }
 
-    @RequestMapping("/seckill")
-    public String seck(){
-        return "seck";
-    }
-
     @GetMapping("/login")
     public String login(){
         return"login";

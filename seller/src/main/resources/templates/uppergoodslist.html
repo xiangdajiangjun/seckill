@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>已上架商品</title>
+</head>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/alert.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<style>
+    #pagebar{
+        text-align: center;
+    }
+</style>
+<body>
+<div class="container">
+    <table class="table table-condensed">
+        <caption>商品列表</caption>
+        <thead>
+        <tr>
+            <th>商品id</th>
+            <th>商品名称</th>
+            <th>原价</th>
+            <th>现价</th>
+            <th>秒杀库存</th>
+            <th>个人限购</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="activities:${page.list}">
+            <td th:text="${activities.getId()}">商品id</td>
+            <td th:text="${activities.getName()}">商品名称</td>
+            <td th:text="${activities.getOriginalPrice()}">原价</td>
+            <td th:text="${activities.getPresentPrice()}">现价</td>
+            <td th:text="${activities.getAllLimit()}">秒杀库存</td>
+            <td th:text="${activities.getSingleLimit()}">个人限购</td>
+        </tr>
+        </tbody>
+    </table>
+    <nav style="padding-top: 350px" aria-label="Page navigation" id="pagebar" th:if="${page.pageTotal!=0}">
+        <ul class="pagination pagination-lg">
+            <!--        上一页按钮-->
+            <li th:if="${page.currentPage!=1}">
+                <a th:href="@{'?page='+${page.currentPage-1}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:unless="${page.currentPage!=1}" class="disabled">
+                <span aria-hidden="true">&laquo;</span>
+            </li>
+
+
+            <!--        前几页-->
+            <li th:each="i:${#numbers.sequence(1,(page.currentPage)-1)}" th:if="${page.currentPage!=1}">
+                <a th:href="@{'?page='+${i}}" th:text="${i}"></a>
+            </li>
+            <!--当前页-->
+            <li class="active">
+                <span th:text="${page.currentPage}"></span>
+            </li>
+            <!--后几页-->
+            <li th:each="i2:${#numbers.sequence(page.currentPage+1,page.pageTotal)}" th:if="${page.currentPage!=page.pageTotal}">
+                <a th:href="@{'?page='+${i2}}" th:text="${i2}"></a>
+            </li>
+
+            <!--        下一页按钮-->
+            <li th:if="${page.currentPage!=page.pageTotal}">
+                <a th:href="@{'?page='+${page.currentPage+1}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li th:unless="${page.currentPage!=page.pageTotal}" class="disabled">
+                <span aria-hidden="true">&raquo;</span>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

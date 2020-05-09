@@ -1,3 +1,13 @@
+function continue_next(activitiesId) {
+    $.get("/activities/continue?activitiesId="+activitiesId,function (data,status) {
+        if (status==="success"){
+            alert("操作成功");
+            location.reload();
+        }
+        else
+            alert("操作失败");
+    });
+}
 function role_distribution(username,roleId) {
     $.get("/account/role/distribute?username="+username+"&roleId="+roleId,function (data,status) {
         if (status==="success"){
