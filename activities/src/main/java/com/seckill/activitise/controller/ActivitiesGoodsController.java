@@ -46,4 +46,9 @@ public class ActivitiesGoodsController {
         return true;
     }
 
+    @RequestMapping("/get")
+    @ResponseBody
+    ActivitiesGoods getActivitiesGoods(@RequestParam("activitiesGoodsId") Integer activitiesGoodsId){
+        return activitiesGoodsDao.findById(activitiesGoodsId);
+    }
 }

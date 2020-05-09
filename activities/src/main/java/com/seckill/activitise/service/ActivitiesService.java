@@ -39,10 +39,14 @@ public class ActivitiesService {
         if (activities==null)
             return false;
         Integer status = activities.getStatus();
+        Date now = new Date();
+        Date startDatetime = activities.getStartDatetime();
+        Date endDatetime = activities.getEndDatetime();
+        Integer now_start = now.compareTo(startDatetime);
+        Integer now_end = now.compareTo(endDatetime);
         if (status>=1&&status<=3){
-            Date startDatetime = activities.getStartDatetime();
-            Date now = new Date();
-            if (now.compareTo(startDatetime)>=0){
+
+            if (now_start>=0){
                 //当前时间在开始时间之后，而状态仍然不是开启阶段，则活动取消
                 activities.setStatus(-1);
                 return false;
@@ -50,6 +54,23 @@ public class ActivitiesService {
             activities.setStatus(status+1);
             activitiesDao.save(activities);
             return true;
+        }
+        else if (status==4){
+            if (now_start>=0){
+                activities.setStatus(5);
+                activitiesDao.save(activities);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (status==5){
+            if (now_end>=0){
+                activities.setStatus(6);
+                activitiesDao.save(activities);
+                return true;
+            }
         }
         return false;
     }
@@ -88,6 +109,7 @@ public class ActivitiesService {
         return true;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Boolean joinActivities(Integer shopId, Integer activitiesId) {
         Activities activities = activitiesDao.findById(activitiesId);
         //检查商店上限是否已满
@@ -95,13 +117,13 @@ public class ActivitiesService {
         Integer shopLimit = activities.getShopLimit();
         if (shopNum>=shopLimit)
             return false;
-        else
-            activities.setShopNum(shopNum+1);
         //检查是否已经在该活动商家列表中
-        List<Integer> shopList = activitiesShopDao.findAll().stream().map(ActivitiesShop::getShopId).collect(Collectors.toList());
+        List<Integer> shopList = activitiesShopDao.findAllByActivitiesId(activitiesId).stream().map(ActivitiesShop::getShopId).collect(Collectors.toList());
         if (shopList.contains(shopId)){
             return false;
         }
+        activities.setShopNum(shopNum+1);
+        activitiesDao.save(activities);
         //建立活动商家映射表单
         ActivitiesShop activitiesShop =new ActivitiesShop();
         activitiesShop.setShopId(shopId);
@@ -113,5 +135,11 @@ public class ActivitiesService {
 
     public Activities getActivitiesById(Integer activitiesId) {
         return activitiesDao.findById(activitiesId);
+    }
+
+    @Transactional
+    public Boolean saveActivities(Activities activities) {
+        activitiesDao.save(activities);
+        return true;
     }
 }

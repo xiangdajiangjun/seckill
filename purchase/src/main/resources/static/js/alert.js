@@ -1,3 +1,9 @@
+function buyseck(activitiesGoodsId) {
+    $.get("/seckill/buygoods?activitiesGoodsId="+activitiesGoodsId,function (data,status) {
+        alert(data);
+    });
+}
+
 function addgood(goodid) {
     $.get("/cart/add?goodid="+goodid,function (data,status) {
         if (status==="success")

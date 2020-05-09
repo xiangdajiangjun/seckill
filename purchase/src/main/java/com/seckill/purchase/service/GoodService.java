@@ -21,4 +21,6 @@ public interface GoodService {
     Boolean changeGoodsTypeStatus(Integer typeId);
 
     Boolean addGoodsType(String tag);
+
+    List<Goods> getGoodsListByIdList(List<Integer> goodsIdList);
 }

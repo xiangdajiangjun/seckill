@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!--    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>-->
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
+    <script th:src="@{/js/alert.js}"></script>
+    <style>
+        .thumbnail img{
+            width: 300px;
+            height: 200px;
+        }
+        #pagebar{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div th:replace="header"></div>
+    <div th:if="${page.pageTotal==0}">
+        <strong>
+            对不起，暂无上架商品。
+        </strong>
+    </div>
+    <div class="row">
+        <div th:each="good:${page.list}">
+
+            <div class="col-sm-5 col-md-3"  th:object="${good}">
+                <div class="thumbnail">
+                    <img th:src="*{image}" alt="asD" class="img-responsive center-block">
+                    <div class="caption">
+                        <s th:text="'原价¥'+*{originalPrice}"></s>
+                        <h3 style="color: #ec971f" th:text="'¥'+*{presentPrice}"></h3>
+                        <h4 th:text="*{name}">Thumbnail label</h4>
+                        <p th:text="*{describe}"></p>
+                        <p><a th:href="@{'/good/info?goodId='+*{id}}" class="btn btn-primary" role="button">详情</a> <a class="btn btn-default" role="button" th:onclick="buyseck([[*{id}]])" >立即抢购</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <nav aria-label="Page navigation" id="pagebar" th:if="${page.pageTotal!=0}">
+        <ul class="pagination pagination-lg">
+            <!--        上一页按钮-->
+            <li th:if="${page.currentPage!=1}">
+                <a th:href="@{'?page='+${page.currentPage-1}+'&typeId='+${typeId}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:unless="${page.currentPage!=1}" class="disabled">
+                <span aria-hidden="true">&laquo;</span>
+            </li>
+
+
+            <!--        前几页-->
+            <li th:each="i:${#numbers.sequence(1,(page.currentPage)-1)}" th:if="${page.currentPage!=1}">
+                <a th:href="@{'?page='+${i}+'&typeId='+${typeId}}" th:text="${i}"></a>
+            </li>
+            <!--当前页-->
+            <li class="active">
+                <span th:text="${page.currentPage}"></span>
+            </li>
+            <!--后几页-->
+            <li th:each="i2:${#numbers.sequence(page.currentPage+1,page.pageTotal)}" th:if="${page.currentPage!=page.pageTotal}">
+                <a th:href="@{'?page='+${i2}+'&typeId='+${typeId}}" th:text="${i2}"></a>
+            </li>
+
+            <!--        下一页按钮-->
+            <li th:if="${page.currentPage!=page.pageTotal}">
+                <a th:href="@{'?page='+${page.currentPage+1}+'&typeId='+${typeId}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li th:unless="${page.currentPage!=page.pageTotal}" class="disabled">
+                <span aria-hidden="true">&raquo;</span>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+</body>
+<footer th:replace="footer"></footer>
+</html>

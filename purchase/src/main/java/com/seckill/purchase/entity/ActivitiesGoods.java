@@ -1,4 +1,4 @@
-package com.seckill.seller.entity;
+package com.seckill.purchase.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,10 +17,15 @@ public class ActivitiesGoods {
     private Double originalPrice;
     private Double presentPrice;//单价
     private Integer allLimit;
-    private String buyerList;
     private Integer singleLimit;
-    @CreationTimestamp
+    private String buyerList;
+
+    //附加用于前端显示的字段
+    private String image;
+    private String describe;//描述
+
+
+
     private Timestamp createDate;
-    @UpdateTimestamp
     private Timestamp updateDate;
 }

@@ -18,6 +18,12 @@ public class ActivitiesContrller {
     @Resource
     private ActivitiesService activitiesService;
 
+    @RequestMapping("/save")
+    @ResponseBody
+    Boolean saveActivities(@RequestBody Activities activities){
+        return activitiesService.saveActivities(activities);
+    }
+
     @RequestMapping("/list")
     @ResponseBody
     public List<Activities> seeActivities(){

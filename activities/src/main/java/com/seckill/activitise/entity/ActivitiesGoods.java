@@ -22,6 +22,7 @@ public class ActivitiesGoods {
     private Double presentPrice;//单价
     private Integer allLimit;
     private Integer singleLimit;
+    private String buyerList;//购买了此商品的用户id列表
     @CreationTimestamp
     private Timestamp createDate;
     @UpdateTimestamp

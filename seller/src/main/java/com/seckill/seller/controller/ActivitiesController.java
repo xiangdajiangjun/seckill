@@ -172,6 +172,7 @@ public class ActivitiesController {
             }
             //3.无问题，保存上架
             activitiesGoods.setShopId(shopId);
+            activitiesGoods.setBuyerList("");
             Boolean isSuccess = activitiesService.saveActivitiesGoods(activitiesGoods);
             return "上架成功";
         }catch (Exception e){

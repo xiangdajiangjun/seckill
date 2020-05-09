@@ -219,6 +219,14 @@ public class GoodServiceImpl implements GoodService {
         goodDao.save(goods);
         return true;
     }
+
+    @Override
+    public List<Goods> getGoodsListByIdList(List<Integer> goodsIdList) {
+        List<Goods> goodsList = goodDao.findByIdIn(goodsIdList);
+        imageService.readImage(goodsList);
+        goodsList.forEach(goods -> goods.setImage(ConstantAll.IMAGE_ENCODE+goods.getImage()));
+        return goodsList;
+    }
 }
 
 

@@ -67,7 +67,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/**","perms[user_info]");
         filterChainDefinitionMap.put("/cart/**","perms[see_cart]");
         filterChainDefinitionMap.put("/order/**","perms[see_order]");
-        filterChainDefinitionMap.put("/seckill","perms[into_seckill]");
+        filterChainDefinitionMap.put("/seckill/**","perms[into_seckill]");
         //似乎不配置就默认无需认证
         filterChainDefinitionMap.put("/**", "authc");
 
