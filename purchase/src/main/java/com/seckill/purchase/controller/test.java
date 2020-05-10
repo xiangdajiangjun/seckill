@@ -5,6 +5,7 @@ import com.seckill.purchase.dao.RoleDao;
 import com.seckill.purchase.entity.Account;
 import com.seckill.purchase.entity.Role;
 import com.seckill.purchase.service.ImageService;
+import com.seckill.purchase.service.Impl.TestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,22 @@ public class test {
     private AccountDao accountDao;
     @Resource
     private RoleDao roleDao;
+    @Resource
+    private TestService testService;
+
+    @GetMapping("/redis/get")
+    @ResponseBody
+    public String redisGet(@RequestParam("test_s")Integer test_s){
+
+        return testService.getRandom(test_s);
+    }
+    @GetMapping("/redis/get2")
+    @ResponseBody
+    public String redisGet2(@RequestParam("test_s")Integer test_s){
+
+        return testService.getRandom(test_s);
+    }
+
     @GetMapping("/waluduo")
     public String test(){
         Account account = accountDao.findAccountByUsername("xiang");

@@ -8,6 +8,7 @@ import com.seckill.purchase.entity.*;
 import com.seckill.purchase.service.AccountService;
 import com.seckill.purchase.service.ActivitiesRemote;
 import com.seckill.purchase.service.GoodService;
+import com.seckill.purchase.service.Impl.SeckillService;
 import com.seckill.purchase.utils.MyDateUtils;
 import com.seckill.purchase.utils.PageUtil;
 import com.seckill.purchase.vo.CartItem;
@@ -39,6 +40,8 @@ public class SeckillController {
     private UserDao userDao;
     @Resource
     private GoodDao goodDao;
+    @Resource
+    private SeckillService seckillService;
 
     @RequestMapping("/list")
     public String seckList(@RequestParam(value = "page",required = false,defaultValue = "1")Integer page, Model model) throws Exception {
@@ -93,10 +96,10 @@ public class SeckillController {
     @RequestMapping("/buygoods")
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
-    public String seckAddGoods(@RequestParam("activitiesGoodsId") Integer activitiesGoodsId){
+    public String seckAddGoods(@RequestParam("activitiesGoodsId") Integer activitiesGoodsId) throws Exception {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
         Integer buyerId=userDao.findByUsername(userName).getId();
-        ActivitiesGoods activitiesGoods = activitiesRemote.getActivitiesGoods(activitiesGoodsId);
+        ActivitiesGoods activitiesGoods = seckillService.getActivitiesGoods(activitiesGoodsId);
         //检查1
         if (activitiesGoods==null)
             return "商品不存在";
@@ -114,7 +117,7 @@ public class SeckillController {
         if (activitiesGoods.getSingleLimit()<=count)
             return "此商品限购"+activitiesGoods.getSingleLimit()+"件";
         //检查2
-        Goods goods = goodDao.findById(activitiesGoods.getGoodsId());
+        Goods goods = seckillService.findGoodsById(activitiesGoods.getGoodsId());
         if(goods==null)
             return "商品不存在";
         else if (goods.getStock()<=0)
@@ -126,8 +129,8 @@ public class SeckillController {
         goods.setStock(goods.getStock()-1);
         //创建订单
         Order order = Order.builder().orderTime(Timestamp.valueOf(LocalDateTime.now())).price(activitiesGoods.getPresentPrice()).buyerId(buyerId).goodsId(activitiesGoods.getGoodsId()).goodsName(activitiesGoods.getName()).goodsNum(1L).status(1).build();
-        activitiesRemote.saveActivitiesGoods(activitiesGoods);
-        goodDao.save(goods);
+        seckillService.saveActivitiesGoods(activitiesGoods);
+        seckillService.saveGoods(goods);
         orderDao.save(order);
         return "购买成功";
     }

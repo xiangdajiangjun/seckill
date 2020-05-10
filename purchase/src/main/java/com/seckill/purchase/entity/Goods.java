@@ -7,12 +7,13 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 @Data
 @Entity
 @Table(name = "goods", schema = "db_seckill")
-public class Goods {
+public class Goods implements Serializable {
     @Field("goods_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
