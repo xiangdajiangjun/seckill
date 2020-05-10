@@ -31,6 +31,8 @@ public class CartServiceImpl implements CartService {
     private GoodDao goodDao;
     @Resource
     private CartDao cartDao;
+    @Resource
+    private SeckillService seckillService;
 
     /**
      * 加入购物车
@@ -55,9 +57,6 @@ public class CartServiceImpl implements CartService {
             cart=Cart.builder().username(userName).goodList("").build();
         cart.setGoodList(cart.getGoodList()+" "+goodId);
         cartDao.save(cart);
-        //商品库存变化
-        goods.setStock(goods.getStock()-1);
-        goodDao.save(goods);
         return true;
     }
 
@@ -134,10 +133,10 @@ public class CartServiceImpl implements CartService {
         int userId = userDao.findByUsername(userName).getId();
         List<Order> orderList = new ArrayList<>();
         cartItemList.forEach(cartItem -> {
-            Order order = Order.builder().orderTime(Timestamp.valueOf(LocalDateTime.now())).price(cartItem.getPrice()).buyerId(userId).goodsId(cartItem.getGoodId()).goodsName(cartItem.getGoodName()).goodsNum(cartItem.getCount()).status(1).build();
+            Order order = Order.builder().id(-1).orderTime(Timestamp.valueOf(LocalDateTime.now())).price(cartItem.getPrice()).buyerId(userId).goodsId(cartItem.getGoodId()).goodsName(cartItem.getGoodName()).goodsNum(cartItem.getCount()).status(0).build();
             orderList.add(order);
         });
-        orderDao.saveAll(orderList);
+        orderList.forEach(order -> seckillService.saveOrder(order));
         cartDao.deleteByUsername(userName);
         return true;
     }

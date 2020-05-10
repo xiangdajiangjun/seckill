@@ -8,11 +8,14 @@ import com.seckill.purchase.entity.Order;
 import com.seckill.purchase.service.GoodService;
 import com.seckill.purchase.service.OrderService;
 import com.seckill.purchase.vo.OrderVo;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,8 @@ public class OrderServiceImpl implements OrderService {
     private UserDao userDao;
     @Resource
     private OrderDao orderDao;
+    @Resource
+    private SeckillService seckillService;
 
 
     /**
@@ -64,7 +69,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderVo> getAllOrder(String username) {
         List<OrderVo> orderVoList = new ArrayList<>();
-
         Integer userId = userDao.findByUsername(username).getId();
         List<Order> orderList = orderDao.findAllByBuyerId(userId);
         orderList.forEach(order -> {
@@ -76,12 +80,35 @@ public class OrderServiceImpl implements OrderService {
         return orderVoList;
     }
 
+    /**
+     * 支付/更改状态
+     * @param orderId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean operateOderStatus(Integer orderId) {
-        Order order = orderDao.findById(orderId);
+        Order order = seckillService.findOrderById(orderId);
         if (order==null)
             return false;
+        if (order.getStatus()==0){
+            long timeNow = new Date().getTime();
+            long timeCreate = order.getCreateDate().getTime();
+            long pastTime = timeNow-timeCreate;
+            //支付时间超过15分钟,删除订单
+            if (pastTime>900000){
+                seckillService.delOrder(order);
+                return false;
+            }
+            order.setStatus(1);
+            seckillService.saveOrder(order);
+            //改库存
+            Integer goodsId = order.getGoodsId();
+            Goods goods = goodDao.findById(goodsId);
+            goods.setStock(goods.getStock()-1);
+            seckillService.saveGoods(goods);
+            return true;
+        }
         if (order.getStatus()>=4){
             orderDao.deleteById(orderId);
             return true;

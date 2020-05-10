@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!--    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>-->
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
+    <script th:src="@{/js/alert.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="header"></div>
+    <div th:if="${resultMsg.size()==0}">
+        <strong>
+            暂无消息。
+        </strong>
+    </div>
+
+    <ul class="list-group">
+        <th:block th:each="msg:${resultMsg}">
+            <li class="list-group-item" th:text="${msg}">
+            </li>
+        </th:block>
+
+    </ul>
+
+</div>
+</body>
+<footer th:replace="footer"></footer>
+</html>

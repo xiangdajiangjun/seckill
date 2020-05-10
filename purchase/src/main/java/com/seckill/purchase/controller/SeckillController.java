@@ -13,6 +13,8 @@ import com.seckill.purchase.utils.MyDateUtils;
 import com.seckill.purchase.utils.PageUtil;
 import com.seckill.purchase.vo.CartItem;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/seckill")
 public class SeckillController {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     @Resource
     private GoodService goodService;
     @Resource
@@ -99,39 +103,22 @@ public class SeckillController {
     public String seckAddGoods(@RequestParam("activitiesGoodsId") Integer activitiesGoodsId) throws Exception {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
         Integer buyerId=userDao.findByUsername(userName).getId();
-        ActivitiesGoods activitiesGoods = seckillService.getActivitiesGoods(activitiesGoodsId);
-        //检查1
-        if (activitiesGoods==null)
-            return "商品不存在";
-        if (activitiesGoods.getAllLimit()<=0)
-            return "商品售罄";
-        //得到购买者用户id列表
-        List<Integer> buyerIdList = Arrays.stream(activitiesGoods.getBuyerList().split("\\s+")).filter(s -> !s.isEmpty())
-                .map(Integer::valueOf).collect(Collectors.toList());
-        Integer count = 0;
-        for (Integer listId:buyerIdList){
-            if (listId.equals(buyerId)){
-                count+=1;
-            }
-        }
-        if (activitiesGoods.getSingleLimit()<=count)
-            return "此商品限购"+activitiesGoods.getSingleLimit()+"件";
-        //检查2
-        Goods goods = seckillService.findGoodsById(activitiesGoods.getGoodsId());
-        if(goods==null)
-            return "商品不存在";
-        else if (goods.getStock()<=0)
-            return "商品库存不足";
-
-        //成功,处理数据
-        activitiesGoods.setAllLimit(activitiesGoods.getAllLimit()-1);
-        activitiesGoods.setBuyerList(activitiesGoods.getBuyerList()+" "+ buyerId);
-        goods.setStock(goods.getStock()-1);
-        //创建订单
-        Order order = Order.builder().orderTime(Timestamp.valueOf(LocalDateTime.now())).price(activitiesGoods.getPresentPrice()).buyerId(buyerId).goodsId(activitiesGoods.getGoodsId()).goodsName(activitiesGoods.getName()).goodsNum(1L).status(1).build();
-        seckillService.saveActivitiesGoods(activitiesGoods);
-        seckillService.saveGoods(goods);
-        orderDao.save(order);
-        return "购买成功";
+        //置入消息队列
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("activitiesGoodsId",activitiesGoodsId);
+        msg.put("buyerId",buyerId);
+        rabbitTemplate.convertAndSend("TestDirectExchange", "TestDirectRouting", msg);
+        return "操作成功,请关注抢单结果";
     }
+
+
+    @RequestMapping("/result")
+    public String seckResultPage(Model model){
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        Integer buyerId=userDao.findByUsername(userName).getId();
+        List<String> resultMsg = seckillService.seeResult(buyerId);
+        model.addAttribute("resultMsg",resultMsg);
+        return "seckill_result_page";
+    }
+
 }

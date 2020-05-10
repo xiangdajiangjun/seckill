@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>订单列表</title>
 
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
 
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
     <script th:src="@{/js/alert.js}"></script>
 </head>
 <body>
@@ -73,7 +73,7 @@
             </tbody>
         </table>
     </div>
-<!--    <div class="well m-t"><strong>注意：</strong> 未付款订单请在30分钟内完成付款，否则订单会自动取消。</div>-->
+    <div class="well m-t"><strong>注意：</strong> 未付款订单请在15分钟内完成付款，否则订单会取消。</div>
 </div>
 
 </div>
